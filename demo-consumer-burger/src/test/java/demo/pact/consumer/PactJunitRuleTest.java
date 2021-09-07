@@ -42,12 +42,12 @@ public class PactJunitRuleTest {
                 .headers(headers)
                 .status(200)
                 .body("{\n" +
-                        "    \"salary\": 45000,\n" +
-                        "    \"name\": \"Hatsune Miku\",\n" +
-                        "    \"nationality\": \"Japan\",\n" +
-                        "    \"contact\": {\n" +
-                        "        \"Email\": \"hatsune.miku@ariman.com\",\n" +
-                        "        \"Phone Number\": \"9090950\"\n" +
+                        "    \"qty\": 2,\n" +
+                        "    \"prdname\": \"Cheese Burger\",\n" +
+                        "    \"description\": \"delicious\",\n" +
+                        "    \"details\": {\n" +
+                        "        \"addon\": \"Cheese\",\n" +
+                        "        \"sauce\": \"Tomato\"\n" +
                         "    }\n" +
                         "}")
                 .toPact();
@@ -58,6 +58,6 @@ public class PactJunitRuleTest {
     public void runTest() {
         providerService.setBackendURL(mockProvider.getUrl());
         Cart cart = providerService.getCart();
-        assertEquals(cart.getPrdName(), "Hatsune Miku");
+        assertEquals(cart.getPrdName(), "Cheese Burger");
     }
 }

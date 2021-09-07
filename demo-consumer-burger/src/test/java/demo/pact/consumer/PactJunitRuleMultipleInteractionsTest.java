@@ -42,29 +42,29 @@ public class PactJunitRuleMultipleInteractionsTest {
                 .headers(headers)
                 .status(200)
                 .body("{\n" +
-                        "    \"salary\": 45000,\n" +
-                        "    \"name\": \"Hatsune Miku\",\n" +
-                        "    \"nationality\": \"Japan\",\n" +
-                        "    \"contact\": {\n" +
-                        "        \"Email\": \"hatsune.miku@ariman.com\",\n" +
-                        "        \"Phone Number\": \"9090950\"\n" +
+                        "    \"qty\": 2,\n" +
+                        "    \"prdname\": \"Cheese Burger\",\n" +
+                        "    \"description\": \"delicious\",\n" +
+                        "    \"details\": {\n" +
+                        "        \"addon\": \"Cheese\",\n" +
+                        "        \"sauce\": \"Tomato\"\n" +
                         "    }\n" +
                         "}")
                 .given("")
-                .uponReceiving("Nanoha")
+                .uponReceiving("Chicken")
                 .path("/cart")
-                .query("prdname=Nanoha")
+                .query("prdname=Chicken")
                 .method("GET")
                 .willRespondWith()
                 .headers(headers)
                 .status(200)
                 .body("{\n" +
-                        "    \"salary\": 80000,\n" +
-                        "    \"name\": \"Takamachi Nanoha\",\n" +
-                        "    \"nationality\": \"Japan\",\n" +
-                        "    \"contact\": {\n" +
-                        "        \"Email\": \"takamachi.nanoha@ariman.com\",\n" +
-                        "        \"Phone Number\": \"9090940\"\n" +
+                        "    \"qty\": 4,\n" +
+                        "    \"prdname\": \"Takamachi Nanoha\",\n" +
+                        "    \"description\": \"delicious\",\n" +
+                        "    \"details\": {\n" +
+                        "        \"addon\": \"Coke\",\n" +
+                        "        \"sauce\": \"Chilli\"\n" +
                         "    }\n" +
                         "}")
                 .toPact();
@@ -75,10 +75,10 @@ public class PactJunitRuleMultipleInteractionsTest {
     public void runTest() {
         providerService.setBackendURL(mockProvider.getUrl());
         Cart cart = providerService.getCart();
-        assertEquals(cart.getPrdName(), "Hatsune Miku");
+        assertEquals(cart.getPrdName(), "Cheese Burger");
 
-        providerService.setBackendURL(mockProvider.getUrl(), "Nanoha");
+        providerService.setBackendURL(mockProvider.getUrl(), "Chicken");
         cart = providerService.getCart();
-        assertEquals(cart.getPrdName(), "Takamachi Nanoha");
+        assertEquals(cart.getPrdName(), "Fire Chicken");
     }
 }

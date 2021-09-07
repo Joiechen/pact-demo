@@ -48,8 +48,8 @@ public class PactJunitDSLJsonBodyTest {
                 .stringType("prdname", "Cheese Burger")
                 .stringType("description", "delicious")
                 .object("details")
-                .stringValue("addon", "hatsune.miku@ariman.com")
-                .stringValue("sauce", "9090950")
+                .stringValue("addon", "Cheese")
+                .stringValue("sauce", "Tomato")
                 .closeObject();
 
         RequestResponsePact pact = ConsumerPactBuilder
@@ -85,10 +85,10 @@ public class PactJunitDSLJsonBodyTest {
         DslPart body = newJsonBody((root) -> {
             root.numberValue("qty", 2);
             root.stringValue("prdname", "Cheese Burger");
-            root.stringValue("description", "Japan");
+            root.stringValue("description", "delicious");
             root.object("details", (contactObject) -> {
-                contactObject.stringMatcher("addon", ".*@ariman.com", "hatsune.miku@ariman.com");
-                contactObject.stringType("sauce", "9090950");
+                contactObject.stringMatcher("addon", ".*@ariman.com", "Cheese");
+                contactObject.stringType("sauce", "Tomato");
             });
         }).build();
 

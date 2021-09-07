@@ -31,7 +31,7 @@ public class PactBaseConsumerTest extends ConsumerPactTest {
 
         return builder
                 .given("")
-                .uponReceiving("Pact JVM example Pact interaction")
+                .uponReceiving("Pact demo Pact interaction")
                 .path("/cart")
                 .query("prdname=Burger")
                 .method("GET")

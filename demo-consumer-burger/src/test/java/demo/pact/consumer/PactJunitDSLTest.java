@@ -50,21 +50,21 @@ public class PactJunitDSLTest {
                 .headers(headers)
                 .status(200)
                 .body("{\n" +
-                        "    \"salary\": 45000,\n" +
-                        "    \"name\": \"Hatsune Miku\",\n" +
-                        "    \"nationality\": \"Japan\",\n" +
-                        "    \"contact\": {\n" +
-                        "        \"Email\": \"hatsune.miku@ariman.com\",\n" +
-                        "        \"Phone Number\": \"9090950\"\n" +
+                        "    \"qty\": 2,\n" +
+                        "    \"prdname\": \"Cheese Burger\",\n" +
+                        "    \"description\": \"delicious\",\n" +
+                        "    \"details\": {\n" +
+                        "        \"addon\": \"Cheese\",\n" +
+                        "        \"sauce\": \"Tomato\"\n" +
                         "    }\n" +
                         "}")
                 .toPact();
 
         MockProviderConfig config = MockProviderConfig.createDefault();
         PactVerificationResult result = runConsumerTest(pact, config, (mockServer, context) -> {
-            providerService.setBackendURL(mockServer.getUrl(), "Miku");
+            providerService.setBackendURL(mockServer.getUrl(), "Burger");
             Cart cart = providerService.getCart();
-            assertEquals(cart.getPrdName(), "Hatsune Miku");
+            assertEquals(cart.getPrdName(), "Cheese Burger");
             return null;
         });
 
@@ -78,31 +78,31 @@ public class PactJunitDSLTest {
 
         RequestResponsePact pact = ConsumerPactBuilder
                 .consumer("JunitDSLConsumer2")
-                .hasPactWith("ExampleProvider")
+                .hasPactWith("TestProvider")
                 .given("")
-                .uponReceiving("Query name is Nanoha")
+                .uponReceiving("Query name is Chicken")
                 .path("/cart")
-                .query("prdname=Nanoha")
+                .query("prdname=Chicken")
                 .method("GET")
                 .willRespondWith()
                 .headers(headers)
                 .status(200)
                 .body("{\n" +
-                        "    \"salary\": 80000,\n" +
-                        "    \"name\": \"Takamachi Nanoha\",\n" +
-                        "    \"nationality\": \"Japan\",\n" +
-                        "    \"contact\": {\n" +
-                        "        \"Email\": \"takamachi.nanoha@ariman.com\",\n" +
-                        "        \"Phone Number\": \"9090940\"\n" +
+                        "    \"qty\": 4,\n" +
+                        "    \"prdname\": \"Takamachi Nanoha\",\n" +
+                        "    \"description\": \"delicious\",\n" +
+                        "    \"details\": {\n" +
+                        "        \"addon\": \"Coke\",\n" +
+                        "        \"sauce\": \"Chilli\"\n" +
                         "    }\n" +
                         "}")
                 .toPact();
 
         MockProviderConfig config = MockProviderConfig.createDefault();
         PactVerificationResult result = runConsumerTest(pact, config, (mockServer, context) -> {
-            providerService.setBackendURL(mockServer.getUrl(), "Nanoha");
+            providerService.setBackendURL(mockServer.getUrl(), "Chicken");
             Cart cart = providerService.getCart();
-            assertEquals(cart.getPrdName(), "Takamachi Nanoha");
+            assertEquals(cart.getPrdName(), "Fire Chicken");
             return null;
         });
 
