@@ -1,0 +1,49 @@
+{
+    "provider": {
+        "name": "DemoProvider"
+    },
+    "consumer": {
+        "name": "BaseConsumer"
+    },
+    "interactions": [
+        {
+            "description": "Pact JVM example Pact interaction",
+            "request": {
+                "method": "GET",
+                "path": "/cart",
+                "query": {
+                    "prdname": [
+                        "Burger"
+                    ]
+                }
+            },
+            "response": {
+                "status": 200,
+                "headers": {
+                    "Content-Type": "application/json;charset=UTF-8"
+                },
+                "body": {
+                    "qty": 2,
+                    "prdname": "Cheese Burger",
+                    "details": {
+                        "addon": "Cheese",
+                        "sauce": "Tomato"
+                    }
+                }
+            },
+            "providerStates": [
+                {
+                    "name": "Base State"
+                }
+            ]
+        }
+    ],
+    "metadata": {
+        "pact-specification": {
+            "version": "3.0.0"
+        },
+        "pact-jvm": {
+            "version": "3.5.9"
+        }
+    }
+}

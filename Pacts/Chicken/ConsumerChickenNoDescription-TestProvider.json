@@ -1,0 +1,88 @@
+{
+  "provider": {
+    "name": "TestProvider"
+  },
+  "consumer": {
+    "name": "ConsumerChickenNoDescription"
+  },
+  "interactions": [
+    {
+      "description": "Query name is Chicken",
+      "request": {
+        "method": "GET",
+        "path": "/cart",
+        "query": {
+          "prdname": [
+            "Chicken"
+          ]
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json;charset\u003dUTF-8"
+        },
+        "body": {
+          "description": null,
+          "details": {
+            "addon": "takamachi.nanoha@ariman.com",
+            "sauce": "9090940"
+          },
+          "prdname": "Takamachi Nanoha",
+          "qty": 4
+        },
+        "matchingRules": {
+          "body": {
+            "$.qty": {
+              "matchers": [
+                {
+                  "match": "number"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.details.addon": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": ".*@ariman.com"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.contact[\u0027Phone Number\u0027]": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            }
+          }
+        },
+        "generators": {
+          "body": {
+            "$.salary": {
+              "type": "RandomInt",
+              "min": 0,
+              "max": 2147483647
+            }
+          }
+        }
+      },
+      "providerStates": [
+        {
+          "name": "No description"
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "3.0.0"
+    },
+    "pact-jvm": {
+      "version": "4.0.3"
+    }
+  }
+}

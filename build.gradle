@@ -1,0 +1,123 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.8.RELEASE")
+        classpath("org.thymeleaf:thymeleaf:3.0.8.RELEASE")
+        classpath("au.com.dius:pact-jvm-provider-gradle:4.0.3")
+    }
+}
+
+allprojects {
+  apply plugin: 'java'
+  apply plugin: 'idea'
+
+  repositories {
+     mavenCentral()
+  }
+}
+
+subprojects {
+  apply plugin: 'org.springframework.boot'
+
+  sourceCompatibility = 1.8
+  targetCompatibility = 1.8
+
+  dependencies {
+      implementation("org.springframework.boot:spring-boot-starter-web")
+      implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+      //implementation("org.springframework.boot:spring-boot-devtools")
+      testImplementation('org.springframework.boot:spring-boot-starter-test')
+      testImplementation("junit:junit")
+      testImplementation("au.com.dius:pact-jvm-consumer-junit:4.0.3")
+      testImplementation("au.com.dius:pact-jvm-consumer-java8:4.0.3")
+  }
+
+}
+
+project(':demo-consumer-burger') {
+    version '1.0.0'
+    apply plugin: 'au.com.dius.pact'
+
+    jar {
+        archiveBaseName = 'demo-consumer-burger'
+        archiveVersion =  '1.0.0'
+    }
+
+    test {
+        systemProperties['pact.rootDir'] = "$rootDir/Pacts/Burger"
+    }
+
+    pact {
+        publish {
+            pactDirectory = "$rootDir/Pacts/Burger"
+
+
+            //This is to local Pact Broker in Docker
+            pactBrokerUrl = "http://localhost"
+        }
+    }
+}
+
+project(':demo-consumer-chicken') {
+    jar {
+        archiveBaseName = 'demo-consumer-chicken'
+        archiveVersion =  '1.0.0'
+    }
+
+    test {
+        systemProperties['pact.rootDir'] = "$rootDir/Pacts/Chicken"
+    }
+}
+
+import java.net.URL
+
+project(':test-provider') {
+    apply plugin: 'au.com.dius.pact'
+
+    jar {
+        archiveBaseName = 'test-provider'
+        archiveVersion =  '1.0.0'
+    }
+
+    pact {
+        serviceProviders {
+            TestProvider {
+                protocol = 'http'
+                host = 'localhost'
+                port = 8080
+                path = '/'
+
+                // Test Pacts from local Miku
+                hasPactWith('Burger - Base contract') {
+                    pactSource = file("$rootDir/Pacts/Burger/BaseConsumer-TestProvider.json")
+                }
+
+                hasPactsWith('Burger - All contracts') {
+                    pactFileLocation = file("$rootDir/Pacts/Burger")
+                }
+
+                // Test Pacts from Pact Broker
+ //               hasPactsFromPactBroker(mybrokerUrl, authentication: ['Basic', mybrokerUser, mybrokerPassword])
+
+                // This is for local Pact Broker in Docker
+ //               hasPactsFromPactBroker("http://localhost:8888/")
+
+                // Test Pacts from local Nanoha
+//                hasPactWith('Nanoha - With Nantionality') {
+//                    pactSource = file("$rootDir/Pacts/Nanoha/ConsumerNanohaWithNationality-ExampleProvider.json")
+//                }
+
+ //               hasPactWith('Nanoha - No Nantionality') {
+ //                   stateChangeUrl = new URL('http://localhost:8080/pactStateChange')
+ //                   pactSource = file("$rootDir/Pacts/Nanoha/ConsumerNanohaNoNationality-ExampleProvider.json")
+ //               }
+
+            }
+        }
+    }
+
+}
+
+

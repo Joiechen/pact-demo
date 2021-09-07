@@ -1,0 +1,2 @@
+include "demo-consumer-burger", "demo-consumer-chicken", "test-provider"
+
