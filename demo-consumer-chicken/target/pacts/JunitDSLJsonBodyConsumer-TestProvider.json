@@ -1,18 +1,18 @@
 {
     "provider": {
-        "name": "ExampleProvider"
+        "name": "TestProvider"
     },
     "consumer": {
-        "name": "JunitDSLLambdaJsonBodyConsumer"
+        "name": "JunitDSLJsonBodyConsumer"
     },
     "interactions": [
         {
-            "description": "Query name is Miku",
+            "description": "Query prdname is Burger",
             "request": {
                 "method": "GET",
-                "path": "/information",
+                "path": "/cart",
                 "query": {
-                    "name": [
+                    "prdname": [
                         "Miku"
                     ]
                 }
@@ -23,25 +23,24 @@
                     "Content-Type": "application/json;charset=UTF-8"
                 },
                 "body": {
-                    "contact": {
-                        "Email": "hatsune.miku@ariman.com",
-                        "Phone Number": "9090950"
+                    "details": {
+                        "addon": "Cheese",
+                        "sauce": "Tomato"
                     },
-                    "name": "Hatsune Miku",
-                    "salary": 45000
+                    "prdname": "Cheese Burger",
+                    "qty": 2
                 },
                 "matchingRules": {
                     "body": {
-                        "$.contact.Email": {
+                        "$.qty": {
                             "matchers": [
                                 {
-                                    "match": "regex",
-                                    "regex": ".*@ariman.com"
+                                    "match": "number"
                                 }
                             ],
                             "combine": "AND"
                         },
-                        "$.contact['Phone Number']": {
+                        "$.prdname": {
                             "matchers": [
                                 {
                                     "match": "type"
@@ -59,13 +58,13 @@
             ]
         },
         {
-            "description": "Query name is Miku",
+            "description": "Query prdname is Burger",
             "request": {
                 "method": "GET",
-                "path": "/information",
+                "path": "/cart",
                 "query": {
-                    "name": [
-                        "Miku"
+                    "prdname": [
+                        "Burger"
                     ]
                 }
             },
@@ -75,25 +74,24 @@
                     "Content-Type": "application/json;charset=UTF-8"
                 },
                 "body": {
-                    "contact": {
-                        "Email": "hatsune.miku@ariman.com",
-                        "Phone Number": "9090950"
+                    "details": {
+                        "addon": "Cheese",
+                        "sauce": "Tomato"
                     },
-                    "name": "Hatsune Miku",
-                    "salary": 45000
+                    "prdname": "Cheese Burger",
+                    "qty": 2
                 },
                 "matchingRules": {
                     "body": {
-                        "$.contact.Email": {
+                        "$.qty": {
                             "matchers": [
                                 {
-                                    "match": "regex",
-                                    "regex": ".*@ariman.com"
+                                    "match": "number"
                                 }
                             ],
                             "combine": "AND"
                         },
-                        "$.contact['Phone Number']": {
+                        "$.prdname": {
                             "matchers": [
                                 {
                                     "match": "type"

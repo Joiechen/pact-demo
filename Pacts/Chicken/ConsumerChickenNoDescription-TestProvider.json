@@ -7,7 +7,7 @@
   },
   "interactions": [
     {
-      "description": "Query name is Chicken",
+      "description": "Query prdname is Chicken",
       "request": {
         "method": "GET",
         "path": "/cart",
@@ -25,10 +25,10 @@
         "body": {
           "description": null,
           "details": {
-            "addon": "takamachi.nanoha@ariman.com",
-            "sauce": "9090940"
+            "addon": "Coke",
+            "sauce": "Chilli"
           },
-          "prdname": "Takamachi Nanoha",
+          "prdname": "Fire Chicken",
           "qty": 4
         },
         "matchingRules": {
@@ -45,12 +45,12 @@
               "matchers": [
                 {
                   "match": "regex",
-                  "regex": ".*@ariman.com"
+                  "regex": ".*ke"
                 }
               ],
               "combine": "AND"
             },
-            "$.contact[\u0027Phone Number\u0027]": {
+            "$.details[\u0027sauce\u0027]": {
               "matchers": [
                 {
                   "match": "type"
@@ -62,7 +62,7 @@
         },
         "generators": {
           "body": {
-            "$.salary": {
+            "$.qty": {
               "type": "RandomInt",
               "min": 0,
               "max": 2147483647

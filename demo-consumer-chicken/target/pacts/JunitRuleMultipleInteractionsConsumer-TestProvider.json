@@ -1,19 +1,19 @@
 {
     "provider": {
-        "name": "ExampleProvider"
+        "name": "TestProvider"
     },
     "consumer": {
         "name": "JunitRuleMultipleInteractionsConsumer"
     },
     "interactions": [
         {
-            "description": "Miku",
+            "description": "Burger",
             "request": {
                 "method": "GET",
-                "path": "/information",
+                "path": "/cart",
                 "query": {
-                    "name": [
-                        "Miku"
+                    "prdname": [
+                        "Burger"
                     ]
                 }
             },
@@ -23,11 +23,11 @@
                     "Content-Type": "application/json;charset=UTF-8"
                 },
                 "body": {
-                    "salary": 45000,
-                    "name": "Hatsune Miku",
-                    "contact": {
-                        "Email": "hatsune.miku@ariman.com",
-                        "Phone Number": "9090950"
+                    "qty": 2,
+                    "prdname": "Cheese Burger",
+                    "details": {
+                        "addon": "Cheese",
+                        "sauce": "Tomato"
                     }
                 }
             },
@@ -38,13 +38,13 @@
             ]
         },
         {
-            "description": "Nanoha",
+            "description": "Chicken",
             "request": {
                 "method": "GET",
-                "path": "/information",
+                "path": "/cart",
                 "query": {
-                    "name": [
-                        "Nanoha"
+                    "prdname": [
+                        "Chicken"
                     ]
                 }
             },
@@ -54,9 +54,9 @@
                     "Content-Type": "application/json;charset=UTF-8"
                 },
                 "body": {
-                    "salary": 0,
-                    "name": "Nanoha",
-                    "contact": null
+                    "qty": 4,
+                    "prdname": "Fire Chicken",
+                    "details": null
                 }
             },
             "providerStates": [
@@ -66,13 +66,13 @@
             ]
         },
         {
-            "description": "Miku",
+            "description": "Burger",
             "request": {
                 "method": "GET",
-                "path": "/information",
+                "path": "/cart",
                 "query": {
-                    "name": [
-                        "Miku"
+                    "prdname": [
+                        "Burger"
                     ]
                 }
             },
@@ -82,28 +82,28 @@
                     "Content-Type": "application/json;charset=UTF-8"
                 },
                 "body": {
-                    "salary": 45000,
-                    "name": "Hatsune Miku",
-                    "contact": {
-                        "Email": "hatsune.miku@ariman.com",
-                        "Phone Number": "9090950"
+                    "qty": 2,
+                    "prdname": "Cheese Burger",
+                    "details": {
+                        "addon": "Cheese",
+                        "sauce": "Tomato"
                     }
                 }
             },
             "providerStates": [
                 {
-                    "name": "State Miku"
+                    "name": "State Burger"
                 }
             ]
         },
         {
-            "description": "Nanoha",
+            "description": "Chicken",
             "request": {
                 "method": "GET",
-                "path": "/information",
+                "path": "/cart",
                 "query": {
-                    "name": [
-                        "Nanoha"
+                    "prdname": [
+                        "Chicken"
                     ]
                 }
             },
@@ -113,14 +113,14 @@
                     "Content-Type": "application/json;charset=UTF-8"
                 },
                 "body": {
-                    "salary": 0,
-                    "name": "Nanoha",
-                    "contact": null
+                    "qty": 4,
+                    "prdname": "Chicken",
+                    "details": null
                 }
             },
             "providerStates": [
                 {
-                    "name": "State Nanoha"
+                    "name": "State Chicken"
                 }
             ]
         }

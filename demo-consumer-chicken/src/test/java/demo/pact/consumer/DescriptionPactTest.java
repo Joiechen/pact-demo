@@ -42,21 +42,21 @@ public class DescriptionPactTest {
 
         DslPart body = newJsonBody((root) -> {
             root.numberType("qty");
-            root.stringValue("prdname", "Takamachi Nanoha");
-            root.stringValue("description", "Japan");
+            root.stringValue("prdname", "Fire Chicken");
+            root.stringValue("description", "delicious");
             root.object("details", (detailsObject) -> {
-                detailsObject.stringMatcher("addon", ".*@ariman.com", "takamachi.nanoha@ariman.com");
-                detailsObject.stringType("sauce", "9090940");
+                detailsObject.stringMatcher("addon", ".*ke", "Coke");
+                detailsObject.stringType("sauce", "Chilli");
             });
         }).build();
 
         RequestResponsePact pact = ConsumerPactBuilder
-                .consumer("ConsumerNanohaWithNationality")
+                .consumer("ConsumerChickenWithDescription")
                 .hasPactWith("TestProvider")
                 .given("")
                 .uponReceiving("Query name is Chicken")
                 .path("/cart")
-                .query("prdname=Nanoha")
+                .query("prdname=Chicken")
                 .method("GET")
                 .willRespondWith()
                 .headers(headers)
@@ -68,8 +68,8 @@ public class DescriptionPactTest {
         PactVerificationResult result = runConsumerTest(pact, config, (mockServer, context) -> {
             providerService.setBackendURL(mockServer.getUrl());
             Cart cart = providerService.getCart();
-            assertEquals(cart.getPrdName(), "Takamachi Nanoha");
-            assertEquals(cart.getDescription(), "Japan");
+            assertEquals(cart.getPrdName(), "Fire Chicken");
+            assertEquals(cart.getDescription(), "delicious");
             return null;
         });
 
@@ -83,21 +83,21 @@ public class DescriptionPactTest {
 
         DslPart body = newJsonBody((root) -> {
             root.numberType("qty");
-            root.stringValue("prdname", "Takamachi Nanoha");
+            root.stringValue("prdname", "Fire Chicken");
             root.stringValue("description", null);
             root.object("details", (detailsObject) -> {
-                detailsObject.stringMatcher("addon", ".*@ariman.com", "takamachi.nanoha@ariman.com");
-                detailsObject.stringType("sauce", "9090940");
+                detailsObject.stringMatcher("addon", ".*ke", "Coke");
+                detailsObject.stringType("sauce", "Chilli");
             });
         }).build();
 
         RequestResponsePact pact = ConsumerPactBuilder
-                .consumer("ConsumerNanohaNoNationality")
+                .consumer("ConsumerChickenNoDescription")
                 .hasPactWith("TestProvider")
-                .given("No nationality")
-                .uponReceiving("Query name is Nanoha")
-                .path("/information")
-                .query("name=Nanoha")
+                .given("No description")
+                .uponReceiving("Query name is Chicken")
+                .path("/cart")
+                .query("prdname=Chicken")
                 .method("GET")
                 .willRespondWith()
                 .headers(headers)
@@ -109,7 +109,7 @@ public class DescriptionPactTest {
         PactVerificationResult result = runConsumerTest(pact, config, (mockServer, context) -> {
             providerService.setBackendURL(mockServer.getUrl());
             Cart cart = providerService.getCart();
-            assertEquals(cart.getPrdName(), "Takamachi Nanoha");
+            assertEquals(cart.getPrdName(), "Fire Chicken");
             assertNull(cart.getDescription());
             return null;
         });

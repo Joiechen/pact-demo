@@ -1,17 +1,17 @@
 {
     "provider": {
-        "name": "ExampleProvider"
+        "name": "TestProvider"
     },
     "consumer": {
-        "name": "JunitDSLConsumer2"
+        "name": "JunitDSLConsumer1"
     },
     "interactions": [
         {
-            "description": "Query name is Nanoha",
+            "description": "Query name is Burger",
             "request": {
                 "method": "GET",
-                "path": "/information",
-                "query": "name=Nanoha"
+                "path": "/cart",
+                "query": "prdname=Burger"
             },
             "response": {
                 "status": 200,
@@ -19,19 +19,22 @@
                     "Content-Type": "application/json;charset=UTF-8"
                 },
                 "body": {
-                    "salary": 0,
-                    "name": "Nanoha",
-                    "contact": null
+                    "qty": 2,
+                    "prdname": "Cheese Burger",
+                    "details": {
+                        "addon": "Cheese",
+                        "sauce": "Tomato"
+                    }
                 }
             },
             "providerState": "Junit DSL State"
         },
         {
-            "description": "Query name is Nanoha",
+            "description": "Query name is Burger",
             "request": {
                 "method": "GET",
-                "path": "/information",
-                "query": "name=Nanoha"
+                "path": "/cart",
+                "query": "prdname=Burger"
             },
             "response": {
                 "status": 200,
@@ -39,11 +42,15 @@
                     "Content-Type": "application/json;charset=UTF-8"
                 },
                 "body": {
-                    "salary": 0,
-                    "name": "Nanoha",
-                    "contact": null
+                    "qty": 2,
+                    "prdname": "Cheese Burger",
+                    "details": {
+                        "addon": "Cheese",
+                        "sauce": "Tomato"
+                    }
                 }
-            }
+            },
+            "providerState": "Test state"
         }
     ],
     "metadata": {

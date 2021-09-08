@@ -1,17 +1,17 @@
 {
     "provider": {
-        "name": "ExampleProvider"
+        "name": "TestProvider"
     },
     "consumer": {
-        "name": "JunitDSLConsumer1"
+        "name": "JunitDSLConsumer2"
     },
     "interactions": [
         {
-            "description": "Query name is Miku",
+            "description": "Query name is Chicken",
             "request": {
                 "method": "GET",
-                "path": "/information",
-                "query": "name=Miku"
+                "path": "/cart",
+                "query": "prdname=Chicken"
             },
             "response": {
                 "status": 200,
@@ -19,22 +19,19 @@
                     "Content-Type": "application/json;charset=UTF-8"
                 },
                 "body": {
-                    "salary": 45000,
-                    "name": "Hatsune Miku",
-                    "contact": {
-                        "Email": "hatsune.miku@ariman.com",
-                        "Phone Number": "9090950"
-                    }
+                    "qty": 4,
+                    "prdname": "Fire Chicken",
+                    "details": null
                 }
             },
             "providerState": "Junit DSL State"
         },
         {
-            "description": "Query name is Miku",
+            "description": "Query name is Chicken",
             "request": {
                 "method": "GET",
-                "path": "/information",
-                "query": "name=Miku"
+                "path": "/cart",
+                "query": "prdname=Chicken"
             },
             "response": {
                 "status": 200,
@@ -42,15 +39,11 @@
                     "Content-Type": "application/json;charset=UTF-8"
                 },
                 "body": {
-                    "salary": 45000,
-                    "name": "Hatsune Miku",
-                    "contact": {
-                        "Email": "hatsune.miku@ariman.com",
-                        "Phone Number": "9090950"
-                    }
+                    "qty": 4,
+                    "prdname": "Fire Chicken",
+                    "details": null
                 }
-            },
-            "providerState": "Test state"
+            }
         }
     ],
     "metadata": {

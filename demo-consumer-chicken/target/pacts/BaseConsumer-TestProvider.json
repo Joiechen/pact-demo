@@ -1,13 +1,13 @@
 {
     "provider": {
-        "name": "DemoProvider"
+        "name": "TestProvider"
     },
     "consumer": {
         "name": "BaseConsumer"
     },
     "interactions": [
         {
-            "description": "Pact JVM example Pact interaction",
+            "description": "Pact demo Pact interaction",
             "request": {
                 "method": "GET",
                 "path": "/cart",
