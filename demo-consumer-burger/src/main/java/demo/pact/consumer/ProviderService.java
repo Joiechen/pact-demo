@@ -13,7 +13,7 @@ public class ProviderService {
     }
 
     public void setBackendURL(String URLBase) {
-        this.backendURL = URLBase+"/cart?name=Burger";
+        this.backendURL = URLBase+"/cart?prdname=Burger";
     }
     public void setBackendURL(String URLBase, String prdname) {
         this.backendURL = URLBase+"/cart?prdname="+prdname;
