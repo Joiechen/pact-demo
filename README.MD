@@ -22,22 +22,22 @@
 ## 1. Clone项目到你的本地
 把项目Clone到你的本地，会由下面的内容组成:
 
-### 1.1. Test Provider
-This is an API backend service which serves at http://localhost:8080/cart, consumers
-can retrieve shopping cart's product information by calling this endpoint with a query parameter **prdname**,
-to start the provider:
+### 1.1. Test Provider工程
+这是一个后端接口服务，在示例中提供了一个接口服务 http://localhost:8080/cart（接口提供了购物车商品信息返回），消费者
+能通过使用GET方式请求接口，传递参数 **prdname**,来获取购物车中指定商品的信息。
+本地启动服务使用下面的命令:
 
 `./gradlew :test-provider:bootRun`
 
-then call http://localhost:8080/cart?prdname=Burger will get:
+使用postman请求 http://localhost:8080/cart?prdname=Burger 会得到如截图所示的返回信息:
 
 ![](https://github.com/Joiechen/pact-demo/blob/master/screenshot/provider.burger.jpg)
 
-and call http://localhost:8080/cart?prdname=Chicken will get:
+如果请求的参数换成 http://localhost:8080/cart?prdname=Chicken 又会得到如下图所示的返回信息:
 
 ![](https://github.com/Joiechen/pact-demo/blob/master/screenshot/provider.chicken.jpg)
 
-### 1.2. Demo Consumer Burger
+### 1.2. Demo Consumer Burger工程
 This is the first example consumer we called Burger, to start it:
 
 `./gradlew :demo-consumer-burger:bootRun`
