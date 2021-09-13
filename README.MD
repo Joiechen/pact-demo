@@ -477,7 +477,7 @@ public class PactJunitDSLJsonBodyTest {
 > 这个Broker服务使用了PostgreSQL 数据库, 数据会在每次重启的时候丢失.
 > 在 `build.gradle`中设置 `pactBrokerUrl` 为 `http://localhost` 并且设置 `pactBrokerUsername` 和 `pactBrokerPassword` 为 `''`.
 
-After you set up a Pact Broker server for your own, you can easily share your Pacts to the broker with the `pactPublish` command:
+可用通过的命令`pactPublish`来发布pact到你自己的pact broker上，如下 :
 
 `./gradlew :demo-consumer-burger:pactPublish`
 

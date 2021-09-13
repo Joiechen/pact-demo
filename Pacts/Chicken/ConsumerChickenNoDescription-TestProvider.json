@@ -24,7 +24,7 @@
         },
         "body": {
           "prdName": "Fire Chicken",
-          "qty": 100,
+          "qty": 4,
           "description": null,
           "details": {
             "addon": "Coke",
@@ -98,7 +98,7 @@
             "addon": "Coke",
             "sauce": "Chilli"
           },
-          "prdname": "Fire Chicken",
+          "prdName": "Fire Chicken",
           "qty": 4
         },
         "matchingRules": {

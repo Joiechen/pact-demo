@@ -14,7 +14,7 @@ public class CartController {
     @RequestMapping("/chicken")
     public String chicken(Model model) {
         Cart cart = providerService.getCart();
-        model.addAttribute("prdname", cart.getPrdName());
+        model.addAttribute("prdName", cart.getPrdName());
         model.addAttribute("description", cart.getDescription());
         model.addAttribute("addon", cart.getDetails().get("addon"));
         model.addAttribute("sauce", cart.getDetails().get("sauce"));

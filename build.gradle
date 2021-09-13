@@ -105,14 +105,14 @@ project(':test-provider') {
                 hasPactsFromPactBroker("http://localhost/")
 
                 // Test Pacts from local Chicken
-//                hasPactWith('Chicken - With Description') {
-//                    pactSource = file("$rootDir/Pacts/Chicken/ConsumerChickenWithDescription-TestProvider.json")
-//                }
+                hasPactWith('Chicken - With Description') {
+                    pactSource = file("$rootDir/Pacts/Chicken/ConsumerChickenWithDescription-TestProvider.json")
+                }
 
- //               hasPactWith('Chicken - No Description') {
- //                   stateChangeUrl = new URL('http://localhost:8080/pactStateChange')
- //                   pactSource = file("$rootDir/Pacts/Chicken/ConsumerChickenNoDescription-TestProvider.json")
- //               }
+                hasPactWith('Chicken - No Description') {
+                    stateChangeUrl = new URL('http://localhost:8080/pactStateChange')
+                    pactSource = file("$rootDir/Pacts/Chicken/ConsumerChickenNoDescription-TestProvider.json")
+                }
 
             }
         }
