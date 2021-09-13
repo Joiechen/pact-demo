@@ -91,7 +91,7 @@ project(':test-provider') {
 
                 // Test Pacts from local Burger
                 hasPactWith('Burger - Base contract') {
-//                    pactSource = file("$rootDir/Pacts/Burger/BaseConsumer-TestProvider.json")
+                    pactSource = file("$rootDir/Pacts/Burger/BaseConsumer-TestProvider.json")
                 }
 
                 hasPactsWith('Burger - All contracts') {
@@ -102,7 +102,7 @@ project(':test-provider') {
  //               hasPactsFromPactBroker(mybrokerUrl, authentication: ['Basic', mybrokerUser, mybrokerPassword])
 
                 // This is for local Pact Broker in Docker
- //               hasPactsFromPactBroker("http://localhost/")
+                hasPactsFromPactBroker("http://localhost/")
 
                 // Test Pacts from local Chicken
 //                hasPactWith('Chicken - With Description') {

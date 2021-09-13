@@ -16,7 +16,7 @@ public class PactController {
                 System.out.println("Pact State Change >> remove description ...");
                 break;
             case "Default description":
-                Description.setDescription("great");
+                Description.setDescription("delicious");
                 System.out.println("Pact Sate Change >> set default description ...");
                 break;
         }

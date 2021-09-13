@@ -496,182 +496,299 @@ Publishing 'BaseConsumer-TestProvider.json' ... HTTP/1.1 201 Created
 稍后，Provider会从broker中获取到这些Pacts来进行契约测试.
 
 ### 2.4. 在Provider服务端运行契约测试
-We are using the Pact Gradle task in Provider side to run the Contract Test, which can be very easy without
-writing any code, just execute the `pactVerify` task. **Before we run the test, make sure the Provider API is already started and running at our localhost.**
+Provider端的契约测试是使用的 Pact gradle task的方式来运行, 只需要执行 `pactVerify` task. 
+**在Run Provider端的契约测试之前，一定要确保Provider的接口服务是在本地localhost是启动的状态.**
 
-Then we can run the test as:
+使用下面的命令来运行Provider端的契约测试:
 
 `./gradlew :test-provider:pactVerify`
 
-and you can find the test results at the command line, would be something likes:
+运行成功后的结果如下:
 
 ```commandline
-Arimans-MacBook-Pro:pact-jvm-example ariman$ ./gradlew :example-provider:pactVerify                                          
+> Task :test-provider:pactVerify_TestProvider
 
-> Task :example-provider:pactVerify_ExampleProvider 
-
-Verifying a pact between Miku - Base contract and ExampleProvider
-  [Using File /Users/ariman/Workspace/Pacting/pact-jvm-example/Pacts/Miku/BaseConsumer-ExampleProvider.json]
-  Given 
+Verifying a pact between Burger - Base contract and TestProvider
+  [Using File /Users/jingchen/pactdemo/pact-demo/Pacts/Burger/BaseConsumer-TestProvider.json]
+  Given
          WARNING: State Change ignored as there is no stateChange URL
-  Consumer Miku
+  Pact demo Pact interaction
     returns a response which
       has status code 200 (OK)
-      includes headers
-        "Content-Type" with value "application/json;charset=UTF-8" (OK)
       has a matching body (OK)
-  Given 
+
+Verifying a pact between JunitDSLConsumer1 and TestProvider
+  [Using File /Users/jingchen/pactdemo/pact-demo/Pacts/Burger/JunitDSLConsumer1-TestProvider.json]
+  Given
+         WARNING: State Change ignored as there is no stateChange URL
+  Query name is Burger
+    returns a response which
+      has status code 200 (OK)
+      has a matching body (OK)
+
+Verifying a pact between JunitDSLConsumer2 and TestProvider
+  [Using File /Users/jingchen/pactdemo/pact-demo/Pacts/Burger/JunitDSLConsumer2-TestProvider.json]
+  Given
+         WARNING: State Change ignored as there is no stateChange URL
+  Query name is Chicken
+    returns a response which
+      has status code 200 (OK)
+      has a matching body (OK)
+
+Verifying a pact between JunitRuleConsumer and TestProvider
+  [Using File /Users/jingchen/pactdemo/pact-demo/Pacts/Burger/JunitRuleConsumer-TestProvider.json]
+  Given
          WARNING: State Change ignored as there is no stateChange URL
   Pact JVM example Pact interaction
     returns a response which
       has status code 200 (OK)
-      includes headers
-        "Content-Type" with value "application/json;charset=UTF-8" (OK)
       has a matching body (OK)
-      
-  ...
-  
-  Verifying a pact between JunitRuleMultipleInteractionsConsumer and ExampleProvider
-    [from Pact Broker https://ariman.pact.dius.com.au/pacts/provider/ExampleProvider/consumer/JunitRuleMultipleInteractionsConsumer/version/1.0.0]
-    Given 
-           WARNING: State Change ignored as there is no stateChange URL
-    Miku
-      returns a response which
-        has status code 200 (OK)
-        includes headers
-          "Content-Type" with value "application/json;charset=UTF-8" (OK)
-        has a matching body (OK)
-    Given 
-           WARNING: State Change ignored as there is no stateChange URL
-    Nanoha
-      returns a response which
-        has status code 200 (OK)
-        includes headers
-          "Content-Type" with value "application/json;charset=UTF-8" (OK)
-        has a matching body (OK)
+
+Verifying a pact between JunitRuleMultipleInteractionsConsumer and TestProvider
+  [Using File /Users/jingchen/pactdemo/pact-demo/Pacts/Burger/JunitRuleMultipleInteractionsConsumer-TestProvider.json]
+  Given
+         WARNING: State Change ignored as there is no stateChange URL
+  Burger
+    returns a response which
+      has status code 200 (OK)
+      has a matching body (OK)
+  Given
+         WARNING: State Change ignored as there is no stateChange URL
+  Chicken
+    returns a response which
+      has status code 200 (OK)
+      has a matching body (OK)
+
+Verifying a pact between JunitDSLJsonBodyConsumer and TestProvider
+  [Using File /Users/jingchen/pactdemo/pact-demo/Pacts/Burger/JunitDSLJsonBodyConsumer-TestProvider.json]
+  Given
+         WARNING: State Change ignored as there is no stateChange URL
+  Query name is Burger
+    returns a response which
+      has status code 200 (OK)
+      has a matching body (OK)
+
+Verifying a pact between JunitDSLLambdaJsonBodyConsumer and TestProvider
+  [Using File /Users/jingchen/pactdemo/pact-demo/Pacts/Burger/JunitDSLLambdaJsonBodyConsumer-TestProvider.json]
+  Given
+         WARNING: State Change ignored as there is no stateChange URL
+  Query name is Burger
+    returns a response which
+      has status code 200 (OK)
+      has a matching body (OK)
+
+Verifying a pact between BaseConsumer and TestProvider
+  [Using File /Users/jingchen/pactdemo/pact-demo/Pacts/Burger/BaseConsumer-TestProvider.json]
+  Given
+         WARNING: State Change ignored as there is no stateChange URL
+  Pact demo Pact interaction
+    returns a response which
+      has status code 200 (OK)
+      has a matching body (OK)
+
+Verifying a pact between BaseConsumer and TestProvider
+  [from Pact Broker http://localhost/pacts/provider/TestProvider/consumer/BaseConsumer/version/1.0.0]
+  Given
+         WARNING: State Change ignored as there is no stateChange URL
+  Pact demo Pact interaction
+    returns a response which
+      has status code 200 (OK)
+      has a matching body (OK)
+
+Verifying a pact between JunitDSLConsumer1 and TestProvider
+  [from Pact Broker http://localhost/pacts/provider/TestProvider/consumer/JunitDSLConsumer1/version/1.0.0]
+  Given
+         WARNING: State Change ignored as there is no stateChange URL
+  Query name is Burger
+    returns a response which
+      has status code 200 (OK)
+      has a matching body (OK)
+
+Verifying a pact between JunitDSLConsumer2 and TestProvider
+  [from Pact Broker http://localhost/pacts/provider/TestProvider/consumer/JunitDSLConsumer2/version/1.0.0]
+  Given
+         WARNING: State Change ignored as there is no stateChange URL
+  Query name is Chicken
+    returns a response which
+      has status code 200 (OK)
+      has a matching body (OK)
+
+Verifying a pact between JunitDSLJsonBodyConsumer and TestProvider
+  [from Pact Broker http://localhost/pacts/provider/TestProvider/consumer/JunitDSLJsonBodyConsumer/version/1.0.0]
+  Given
+         WARNING: State Change ignored as there is no stateChange URL
+  Query name is Burger
+    returns a response which
+      has status code 200 (OK)
+      has a matching body (OK)
+
+Verifying a pact between JunitDSLLambdaJsonBodyConsumer and TestProvider
+  [from Pact Broker http://localhost/pacts/provider/TestProvider/consumer/JunitDSLLambdaJsonBodyConsumer/version/1.0.0]
+  Given
+         WARNING: State Change ignored as there is no stateChange URL
+  Query name is Burger
+    returns a response which
+      has status code 200 (OK)
+      has a matching body (OK)
+
+Verifying a pact between JunitRuleConsumer and TestProvider
+  [from Pact Broker http://localhost/pacts/provider/TestProvider/consumer/JunitRuleConsumer/version/1.0.0]
+  Given
+         WARNING: State Change ignored as there is no stateChange URL
+  Pact JVM example Pact interaction
+    returns a response which
+      has status code 200 (OK)
+      has a matching body (OK)
+
+Verifying a pact between JunitRuleMultipleInteractionsConsumer and TestProvider
+  [from Pact Broker http://localhost/pacts/provider/TestProvider/consumer/JunitRuleMultipleInteractionsConsumer/version/1.0.0]
+  Given
+         WARNING: State Change ignored as there is no stateChange URL
+  Burger
+    returns a response which
+      has status code 200 (OK)
+      has a matching body (OK)
+  Given
+         WARNING: State Change ignored as there is no stateChange URL
+  Chicken
+    returns a response which
+      has status code 200 (OK)
+      has a matching body (OK)
   
 
 ```
 
-You can find the tests checked the Pacts from both local and remote Pact Broker.
-
-> Since this example is open to all Pact learners, means everyone can upload their own Pacts to this Pact Broker, including
-correct and incorrect pacts, so don't be surprised if your tests run failed with the pacts from this Pact Broker. You can
-always upload correct pacts to the broker, but just don't rely on it, the pacts in this broker may be cleared at anytime
-for reset a clean environment.
+仔细检查会发现provider端的契约测试运行了本地指定文件中的所有测试和broker服务上的所有契约测试.
 
 ## 3. Gradle配置
 
-Before we continue to Consumer Nanoha, let's look at the Gradle Configuration first:
+在看下一个consumer服务Chicken之前, 我们来看看gradle的配置文件:
 
 ```groovy
-project(':example-consumer-miku') {
-    ...
-    test {
-        systemProperties['pact.rootDir'] = "$rootDir/Pacts/Miku"
+project(':demo-consumer-burger') {
+  version '1.0.0'
+  apply plugin: 'au.com.dius.pact'
+
+  jar {
+    archiveBaseName = 'demo-consumer-burger'
+    archiveVersion =  '1.0.0'
+  }
+
+  test {
+    systemProperties['pact.rootDir'] = "$rootDir/Pacts/Burger"
+  }
+
+  pact {
+    publish {
+      pactDirectory = "$rootDir/Pacts/Burger"
+
+
+      //This is to local Pact Broker in Docker
+      pactBrokerUrl = "http://localhost"
     }
-    
-    pact {
-            publish {
-                pactDirectory = "$rootDir/Pacts/Miku"
-                pactBrokerUrl = mybrokerUrl
-                pactBrokerUsername = mybrokerUser
-                pactBrokerPassword = mybrokerPassword
-            }
-    }
-    ...
+  }
 }
 
+project(':demo-consumer-chicken') {
+  jar {
+    archiveBaseName = 'demo-consumer-chicken'
+    archiveVersion =  '1.0.0'
+  }
 
-project(':example-consumer-nanoha') {
-    ...
-    test {
-        systemProperties['pact.rootDir'] = "$rootDir/Pacts/Nanoha"
-    }
-    ...
+  test {
+    systemProperties['pact.rootDir'] = "$rootDir/Pacts/Chicken"
+  }
 }
 
 import java.net.URL
 
-project(':example-provider') {
-    ...
-    pact {
-            serviceProviders {
-                ExampleProvider {
-                    protocol = 'http'
-                    host = 'localhost'
-                    port = 8080
-                    path = '/'
-    
-                    // Test Pacts from local Miku
-                    hasPactWith('Miku - Base contract') {
-                        pactSource = file("$rootDir/Pacts/Miku/BaseConsumer-ExampleProvider.json")
-                    }
-    
-                    hasPactsWith('Miku - All contracts') {
-                        pactFileLocation = file("$rootDir/Pacts/Miku")
-                    }
-    
-                    // Test Pacts from Pact Broker
-                    hasPactsFromPactBroker(mybrokerUrl, authentication: ['Basic', mybrokerUser, mybrokerPassword])
-    
-                    // Test Pacts from local Nanoha
-    //                hasPactWith('Nanoha - With Nantionality') {
-    //                    pactSource = file("$rootDir/Pacts/Nanoha/ConsumerNanohaWithNationality-ExampleProvider.json")
-    //                }
-    
-    //                hasPactWith('Nanoha - No Nantionality') {
-    //                    stateChangeUrl = new URL('http://localhost:8080/pactStateChange')
-    //                    pactSource = file("$rootDir/Pacts/Nanoha/ConsumerNanohaNoNationality-ExampleProvider.json")
-    //                }
-                }
-            }
+project(':test-provider') {
+  apply plugin: 'au.com.dius.pact'
+
+  jar {
+    archiveBaseName = 'test-provider'
+    archiveVersion =  '1.0.0'
+  }
+
+  pact {
+    serviceProviders {
+      TestProvider {
+        protocol = 'http'
+        host = 'localhost'
+        port = 8080
+        path = '/'
+
+        // Test Pacts from local Burger
+        hasPactWith('Burger - Base contract') {
+          pactSource = file("$rootDir/Pacts/Burger/BaseConsumer-TestProvider.json")
         }
+
+        hasPactsWith('Burger - All contracts') {
+          pactFileLocation = file("$rootDir/Pacts/Burger")
+        }
+
+        // Test Pacts from Pact Broker
+        //               hasPactsFromPactBroker(mybrokerUrl, authentication: ['Basic', mybrokerUser, mybrokerPassword])
+
+        // This is for local Pact Broker in Docker
+        hasPactsFromPactBroker("http://localhost/")
+
+        // Test Pacts from local Chicken
+//                hasPactWith('Chicken - With Description') {
+//                    pactSource = file("$rootDir/Pacts/Chicken/ConsumerChickenWithDescription-TestProvider.json")
+//                }
+
+        //               hasPactWith('Chicken - No Description') {
+        //                   stateChangeUrl = new URL('http://localhost:8080/pactStateChange')
+        //                   pactSource = file("$rootDir/Pacts/Chicken/ConsumerChickenNoDescription-TestProvider.json")
+        //               }
+
+      }
     }
-```
-
-Here we have configuration separately for Consumer Nanoha, Consumer Miku and Provider.
-
-- `systemProperties['pact.rootDir']` defines the path where consumer Miku and Nanoha generate their Pacts files locally.
-
-
-- `pact { ... }` defines the the Pact Broker URL and where to fetch pacts to upload to the broker.
-
-- Then in Provider configuration, `hasPactWith()` and `hasPactsWith()` specify the local path to find Pact files,
-  and `hasPactsFromPactBroker` specify the remote Pact Broker to fetch Pact files.
-
-*Why comment Nanoha's Pacts path?* Because we haven't created Nanoha's Pacts, so it will raise exception with
-that configuration, we can uncomment that path later after we created the Nanoha's Pacts files.
-
-## 4. Contract Test between Provider and Consumer Nanoha
-
-The Contract Test between Nanoha and Provider is similar to Miku, the difference I want to demonstrate here is
-**Provider State**, you can find more detailed explanation about the Provider State [here](https://docs.pact.io/documentation/provider_states.html).
-
-### 4.1. Preparation for Provider State
-
-In our example Provider, the returned payload for both Miku and Nanoha have a property `.nationality`, this kind
-of properties values, in real project, could always be queried from database or dependency service, but in this
-example, to simplify the Provider application logic, I just create a static property to simulate the data storage:
-
-`provider.ulti.Nationality`
-
-```java
-public class Nationality {
-    private static String nationality = "Japan";
-
-    public static String getNationality() {
-        return nationality;
-    }
-
-    public static void setNationality(String nationality) {
-        Nationality.nationality = nationality;
-    }
+  }
 }
 ```
 
-Then we can change the `.nationality` value at anytime to achieve our test purpose. To change its value, I created
-a `PactController` which can accept and reset the state value by sending a POST to endpoint `/pactStateChange`:
+可以看到在gradle文件中，对Consumer Burger, Consumer Chicken 和 Provider 进行了单独的配置。
+
+- `systemProperties['pact.rootDir']` 定义了 consumer Bruger and Chicken 在本地生成它们的Pacts文件的路径.
+
+
+- `pact { ... }` 定义了 Pact Broker的地址和上传到哪个broker服务.
+
+- 在 Provider 端的配置中, `hasPactWith()` 和 `hasPactsWith()` 指定了本地Pact文件的路径,
+  而 `hasPactsFromPactBroker` 指定了远程使用pact broker服务的路径.
+
+
+## 4. 在Provider 和 Consumer Chicken之间进行契约测试
+
+在Consumer Chicken和Provider之间进行契约测试跟之前的Burger很相似, 不同之处是使用了
+**Provider State**, 关于更多有关 Provider State的信息可以参考 [官方文档](https://docs.pact.io/documentation/provider_states.html).
+
+### 4.1. 准备 Provider State
+
+在Test Provider 项目中, 之前提供给Burger和Chicken使用的API服务返回了一个属性值 `.description`, 像这种类型的只,
+在真实的项目中，一般会从数据库或者第三方依赖服务获取, 而在这个示例中，为了简单明了，这里使用了一个静态的属性来返回这个值:
+
+`provider.ulti.Description`
+
+```java
+public class Description {
+
+  private static String description = "delicious";
+
+  public static String getDescription() {
+    return description;
+  }
+
+  public static void setDescription(String description) {
+    Description.description = description;
+  }
+}
+```
+
+之后可以在任何时间修改 `.description` 的值来达到测试目的. 为了修改这个值，使用了一个
+ `PactController` 用来通过发送一个POST请求到`/pactStateChange`去接收和重置state值:
 
 `provider.PactController`
 
@@ -680,156 +797,153 @@ a `PactController` which can accept and reset the state value by sending a POST 
 @RestController
 public class PactController {
 
-    @RequestMapping(value = "/pactStateChange", method = RequestMethod.POST)
-    public PactStateChangeResponseDTO providerState(@RequestBody PactState body) {
-        switch (body.getState()) {
-            case "No nationality":
-                Nationality.setNationality(null);
-                System.out.println("Pact State Change >> remove nationality ...");
-                break;
-            case "Default nationality":
-                Nationality.setNationality("Japan");
-                System.out.println("Pact Sate Change >> set default nationality ...");
-                break;
-        }
-
-        // This response is not mandatory for Pact state change. The only reason is the current Pact-JVM v4.0.4 does
-        // check the stateChange request's response, more exactly, checking the response's Content-Type, couldn't be
-        // null, so it MUST return something here.
-        PactStateChangeResponseDTO pactStateChangeResponse = new PactStateChangeResponseDTO();
-        pactStateChangeResponse.setState(body.getState());
-
-        return pactStateChangeResponse;
+  @RequestMapping(value = "/pactStateChange", method = RequestMethod.POST)
+  public PactStateChangeResponseDTO providerState(@RequestBody PactState body) {
+    switch (body.getState()) {
+      case "No description":
+        Description.setDescription(null);
+        System.out.println("Pact State Change >> remove description ...");
+        break;
+      case "Default description":
+        Description.setDescription("delicious");
+        System.out.println("Pact Sate Change >> set default description ...");
+        break;
     }
+
+    // This response is not mandatory for Pact state change. The only reason is the current Pact-JVM v4.0.3 does
+    // check the stateChange request's response, more exactly, checking the response's Content-Type, couldn't be
+    // null, so it MUST return something here.
+    PactStateChangeResponseDTO pactStateChangeResponse = new PactStateChangeResponseDTO();
+    pactStateChangeResponse.setState(body.getState());
+
+    return pactStateChangeResponse;
+  }
 }
 ```
 
-Because this controller should only be available at **Non-Production environment**, so I added a Profile annotation
-to limit that this endpoint is only existing when Provider application is running with a "pact" profile, in another
-words, it only works in test environment.
+因为像这种Controller只能在**非生产环境运行**, 所以这里加了一个注解去限制这个controller只会在Provider运行在一个pact文件的时候才能被调用。
+, 也就是说它只会运行在测试环境。
 
-**So, to summary all above things, when Provider is running with a "pact" profile, it serves an endpoint `/pactStateChange`
-which accept a POST request to set the `.nationality` value to be "Japan" (by default) or "null"**.
+**总结一下, 当Provider和一个 "pact" 文件一起运行的时候, 它会提供一个服务 `/pactStateChange`
+这个服务可以接收一个POST请求来设置 `.description` 值为默认值 "delicious" 或者 "null"**.
 
-### 4.2. Create Test Case at Consumer Nanoha side
+### 4.2. 在Consumer Chicken端新建测试用例
 
-The test cases at Nanoha side is using DSL Lambda, here we have two cases in our test, the main difference between
-them is the expectation for `.nationality` and the Provider State we set in `.given()`.
+Chicken服务中的测试用例都是使用 DSL Lambda 语法来写的, 在下面有两个测试用例, 他们之间的主要区别在于`.given()`部分
+检查`.description`的期望值和Provider State中的设置。
 
 ```java
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class NationalityPactTest {
+public class DescriptionPactTest {
 
-    @Autowired
-    ProviderService providerService;
+  @Autowired
+  ProviderService providerService;
 
-    private void checkResult(PactVerificationResult result) {
-        if (result instanceof PactVerificationResult.Error) {
-            throw new RuntimeException(((PactVerificationResult.Error) result).getError());
-        }
-        assertThat(result, is(instanceOf(PactVerificationResult.Ok.class)));
+  private void checkResult(PactVerificationResult result) {
+    if (result instanceof PactVerificationResult.Error) {
+      throw new RuntimeException(((PactVerificationResult.Error) result).getError());
     }
+    assertThat(result, is(instanceOf(PactVerificationResult.Ok.class)));
+  }
 
-    @Test
-    public void testWithNationality() {
-        Map<String, String> headers = new HashMap<String, String>();
-        headers.put("Content-Type", "application/json;charset=UTF-8");
+  @Test
+  public void testWithDescription() {
+    Map<String, String> headers = new HashMap<String, String>();
+    headers.put("Content-Type", "application/json;charset=UTF-8");
 
-        DslPart body = newJsonBody((root) -> {
-            root.numberType("salary");
-            root.stringValue("name", "Takamachi Nanoha");
-            root.stringValue("nationality", "Japan");
-            root.object("contact", (contactObject) -> {
-                contactObject.stringMatcher("Email", ".*@ariman.com", "takamachi.nanoha@ariman.com");
-                contactObject.stringType("Phone Number", "9090940");
-            });
-        }).build();
+    DslPart body = newJsonBody((root) -> {
+      root.numberType("qty");
+      root.stringValue("prdName", "Fire Chicken");
+      root.stringValue("description", "delicious");
+      root.object("details", (detailsObject) -> {
+        detailsObject.stringMatcher("addon", ".*ke", "Coke");
+        detailsObject.stringType("sauce", "Chilli");
+      });
+    }).build();
 
-        RequestResponsePact pact = ConsumerPactBuilder
-                .consumer("ConsumerNanohaWithNationality")
-                .hasPactWith("ExampleProvider")
-                .given("")
-                .uponReceiving("Query name is Nanoha")
-                .path("/information")
-                .query("name=Nanoha")
-                .method("GET")
-                .willRespondWith()
-                .headers(headers)
-                .status(200)
-                .body(body)
-                .toPact();
+    RequestResponsePact pact = ConsumerPactBuilder
+            .consumer("ConsumerChickenWithDescription")
+            .hasPactWith("TestProvider")
+            .given("")
+            .uponReceiving("Query name is Chicken")
+            .path("/cart")
+            .query("prdname=Chicken")
+            .method("GET")
+            .willRespondWith()
+            .headers(headers)
+            .status(200)
+            .body(body)
+            .toPact();
 
-        MockProviderConfig config = MockProviderConfig.createDefault(PactSpecVersion.V3);
-        PactVerificationResult result = runConsumerTest(pact, config, (mockServer, context) -> {
-            providerService.setBackendURL(mockServer.getUrl());
-            Information information = providerService.getInformation();
-            assertEquals(information.getName(), "Takamachi Nanoha");
-            assertEquals(information.getNationality(), "Japan");
-            return null;
-        });
+    MockProviderConfig config = MockProviderConfig.createDefault(PactSpecVersion.V3);
+    PactVerificationResult result = runConsumerTest(pact, config, (mockServer, context) -> {
+      providerService.setBackendURL(mockServer.getUrl());
+      Cart cart = providerService.getCart();
+      assertEquals(cart.getPrdName(), "Fire Chicken");
+      assertEquals(cart.getDescription(), "delicious");
+      return null;
+    });
 
-        checkResult(result);
-    }
+    checkResult(result);
+  }
 
-    @Test
-    public void testNoNationality() {
-        Map<String, String> headers = new HashMap<String, String>();
-        headers.put("Content-Type", "application/json;charset=UTF-8");
+  @Test
+  public void testNoDescription() {
+    Map<String, String> headers = new HashMap<String, String>();
+    headers.put("Content-Type", "application/json;charset=UTF-8");
 
-        DslPart body = newJsonBody((root) -> {
-            root.numberType("salary");
-            root.stringValue("name", "Takamachi Nanoha");
-            root.stringValue("nationality", null);
-            root.object("contact", (contactObject) -> {
-                contactObject.stringMatcher("Email", ".*@ariman.com", "takamachi.nanoha@ariman.com");
-                contactObject.stringType("Phone Number", "9090940");
-            });
-        }).build();
+    DslPart body = newJsonBody((root) -> {
+      root.numberType("qty");
+      root.stringValue("prdName", "Fire Chicken");
+      root.stringValue("description", null);
+      root.object("details", (detailsObject) -> {
+        detailsObject.stringMatcher("addon", ".*ke", "Coke");
+        detailsObject.stringType("sauce", "Chilli");
+      });
+    }).build();
 
-        RequestResponsePact pact = ConsumerPactBuilder
-                .consumer("ConsumerNanohaNoNationality")
-                .hasPactWith("ExampleProvider")
-                .given("No nationality")
-                .uponReceiving("Query name is Nanoha")
-                .path("/information")
-                .query("name=Nanoha")
-                .method("GET")
-                .willRespondWith()
-                .headers(headers)
-                .status(200)
-                .body(body)
-                .toPact();
+    RequestResponsePact pact = ConsumerPactBuilder
+            .consumer("ConsumerChickenNoDescription")
+            .hasPactWith("TestProvider")
+            .given("No description")
+            .uponReceiving("Query name is Chicken")
+            .path("/cart")
+            .query("prdname=Chicken")
+            .method("GET")
+            .willRespondWith()
+            .headers(headers)
+            .status(200)
+            .body(body)
+            .toPact();
 
-        MockProviderConfig config = MockProviderConfig.createDefault(PactSpecVersion.V3);
-        PactVerificationResult result = runConsumerTest(pact, config, (mockServer, context) -> {
-            providerService.setBackendURL(mockServer.getUrl());
-            Information information = providerService.getInformation();
-            assertEquals(information.getName(), "Takamachi Nanoha");
-            assertNull(information.getNationality());
-            return null;
-        });
+    MockProviderConfig config = MockProviderConfig.createDefault(PactSpecVersion.V3);
+    PactVerificationResult result = runConsumerTest(pact, config, (mockServer, context) -> {
+      providerService.setBackendURL(mockServer.getUrl());
+      Cart cart = providerService.getCart();
+      assertEquals(cart.getPrdName(), "Fire Chicken");
+      assertNull(cart.getDescription());
+      return null;
+    });
 
-        checkResult(result);
-    }
+    checkResult(result);
+  }
 }
 ```
 
-To run the test:
+运行测试:
 
 ```commandline
-./gradlew :example-consumer-nanoha:clean test
+./gradlew :demo-consumer-chicken:clean test
 ```
 
-Then you can find two Pacts files generated at `Pacts\Nanoha`.
+可以看到有2个Pacts文件生成在了 `Pacts\Chicken`.
 
 ### 4.3. 在Provider端进行契约测试
 
 #### 4.3.1. 启动Provider应用
 
-As we mentioned above, before we running our test, we need start Provider application with profile "pact" (if your
-Provider application is already started when you ran test with Miku, please kill it first), the command
-is:
+在运行测试之前先确保Provider服务重新启动了，如果已经启动了，那么kill了之后，重启服务，然后运行下面的命令:
 
 ```commandline
 SPRING_PROFILES_ACTIVE=pact ./gradlew :test-provider:bootRun
@@ -837,86 +951,31 @@ SPRING_PROFILES_ACTIVE=pact ./gradlew :test-provider:bootRun
 
 #### 4.3.2. 修改 Gradle 配置
 
-it's time to uncomment the Pacts file searching path in Provider configuration:
+去除build.gradle中关于Chicken部分的注释:
 
 `build.gralde`
 
 ```groovy
+             hasPactWith('Chicken - With Description') {
+                    pactSource = file("$rootDir/Pacts/Chicken/ConsumerChickenWithDescription-TestProvider.json")
+                }
 
-    hasPactWith('Nanoha - With Nantionality') {
-        pactSource = file("$rootDir/Pacts/Nanoha/ConsumerNanohaWithNationality-ExampleProvider.json")
-    }
-
-    hasPactWith('Nanoha - No Nantionality') {
-        stateChangeUrl = new URL('http://localhost:8080/pactStateChange')
-        pactSource = file("$rootDir/Pacts/Nanoha/ConsumerNanohaNoNationality-ExampleProvider.json")
-    }
+               hasPactWith('Chicken - No Description') {
+                   stateChangeUrl = new URL('http://localhost:8080/pactStateChange')
+                   pactSource = file("$rootDir/Pacts/Chicken/ConsumerChickenNoDescription-TestProvider.json")
+               }
 ```
 
-The first Pact will check the payload with default `.nationality` which value is `Japan`, while the second Pact, we
-define a `stateChangeUrl` which is implemented by `PactController` in Provider as we talked above, and the POST body
-is defined in `.given()` in the Pact.
+第一个 Pact 会检查返回中`.description` 的默认值是 `delicious`, 而第二个Pact, 使用了
+ `stateChangeUrl` 去指定 `PactController` 中的pactstatechange服务, 而POST的Body已经在 `.given()` 中定义好了.
 
 #### 4.3.3. 运行contract test
 
-the same command as we did with Consumer Miku:
+运行下面命令运行测试:
 
 ```commandline
-./gradlew :example-provider:pactVerify
+./gradlew :test-provider:pactVerify
 ```
 
-Then you can get the test log in the same terminal.
-
-## 5. 改错一些东西
-
-Is everything done? Yes, if you followed all above introductions until here, you should be able to create your Contract
-Test by yourself. But before you go to real, let's try to break something to see how Pact could find the defect.
-
-### 5.1. Break something in Provider
-
-Both Miku and Nanoha consume Provider's response for a property `.name`, in real project, there might be a case that
-Provider would like to change this property name to `.fullname`, this could be a classic Contract Breaking which would
-be captured by Pact.
-
-To do that, we need modify several lines of codes in Provider which could be a little difficult to
-understand, especially for a some testers who are not familiar to Spring Boot application.
-
-So to make the breaking simple, let's just force Provider returns `null` as the value to `.name` to all consumers, this can be easily done by
-adding only a single line:
-
-`provider.InformationController`
-```java
-@RestController
-public class InformationController {
-        ...
-        
-        information.setName(null);
-        return information;
-    }
-}
-```
-
-### 5.2. 重新测试
-
-Restart your Provider application and run the test again, you can get the test failures as this:
-
-```commandline
-...
-
-Verifying a pact between Nanoha - With Nantionality and ExampleProvider
-  [Using File /Users/Biao/Workspace/Pacting/Pact-JVM-Example/Pacts/Nanoha/ConsumerNanohaWithNationality-ExampleProvider.json]
-  Given
-         WARNING: State Change ignored as there is no stateChange URL
-  Query name is Nanoha
-    returns a response which
-      has status code 200 (OK)
-      has a matching body (FAILED)
-
-Failures:
-
-0) Verifying a pact between Nanoha - With Nantionality and ExampleProvider - Query name is Nanoha  Given  returns a response which has a matching body
-      Verifying a pact between Nanoha - With Nantionality and ExampleProvider - Query name is Nanoha  Given  returns a response which has a matching body=BodyComparisonResult(mismatches={$.nationality=[BodyMismatch(expected="Japan", actual=null, mismatch=Expected "Japan" but received null, path=$.nationality, diff=null)], $.name=[BodyMismatch(expected="Takamachi Nanoha", actual=null, mismatch=Expected "Takamachi Nanoha" but received null, path=$.name, diff=null)]}, diff=[{, -  "nationality": "Japan",, +  "salary": 80000,, +  "name": null,, +  "nationality": null,,   "contact": {,     "Phone Number": "9090940", -  },, -  "name": "Takamachi Nanoha",, -  "salary": 294875537, +  }, }])
-
-...
-```
+应该会有跟之前一样的测试日志在terminal中显示.
 
