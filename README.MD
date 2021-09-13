@@ -1,7 +1,7 @@
-# PACT CONTRACT TEST Demo
+# 契约测试在PACT框架的应用示例
 
-这是一个提供了使用PACT框架来进行Contract Test的用例项目，在消费者（Consumer）使用了Junit，
-并且在服务提供方（Provider）中使用了Gradle task。项目包含：
+这是一个提供了使用PACT框架来进行Contract Test的示例项目，在消费者（Consumer）使用了Junit的方式进行测试，
+并且在服务提供方（Provider）中使用了Gradle task来启动和规划测试任务。项目包含：
 
 - 使用Spring Boot创建的微服务示例。
 - Demo中包含一个服务提供方（Provider）和两个消费者（Consumer）
@@ -10,7 +10,7 @@
 - 提供了使用Pact Broker的方式
 
 
-Contents
+内容
 ========
 - [PACT Test Demo](#pact-contract-test-demo)
   * [1. Clone项目到你的本地](#1-clone)
