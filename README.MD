@@ -20,6 +20,13 @@
   * [2. 在Provider和Consumer Burger之间进行契约测试](#2--providerburger)
     + [2.1 新建测试用例](#21-test-cases)
     + [2.2 在消费者服务Burger端运行测试](#22--run-the-tests)
+    + [2.3 发布 Pacts 到 Pact Broker](#23--pacts--pact-broker)
+    + [2.4 在Provider服务端运行契约测试](#24-provider)
+  * [3. Gradle配置](#3-gradle)
+  * [4. 在Provider 和 Consumer Chicken之间进行契约测试](#4-provider--consumer-chicken)
+    + [4.1 准备 Provider State](#41--provider-state)
+    + [4.2 在Consumer Chicken端新建测试用例](#42-consumer-chicken)
+    + [4.3 在Provider端进行契约测试](#43-provider)
 
 
 
