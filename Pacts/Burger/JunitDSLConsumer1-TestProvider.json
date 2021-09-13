@@ -3,11 +3,11 @@
     "name": "TestProvider"
   },
   "consumer": {
-    "name": "BaseConsumer"
+    "name": "JunitDSLConsumer1"
   },
   "interactions": [
     {
-      "description": "Pact demo Pact interaction",
+      "description": "Query name is Burger",
       "request": {
         "method": "GET",
         "path": "/cart",

@@ -55,7 +55,7 @@ project(':demo-consumer-burger') {
 
 
             //This is to local Pact Broker in Docker
-            pactBrokerUrl = "http://localhost"
+            //pactBrokerUrl = "http://localhost"
         }
     }
 }
@@ -89,9 +89,9 @@ project(':test-provider') {
                 port = 8080
                 path = '/'
 
-                // Test Pacts from local Miku
+                // Test Pacts from local Burger
                 hasPactWith('Burger - Base contract') {
-                    pactSource = file("$rootDir/Pacts/Burger/BaseConsumer-TestProvider.json")
+//                    pactSource = file("$rootDir/Pacts/Burger/BaseConsumer-TestProvider.json")
                 }
 
                 hasPactsWith('Burger - All contracts') {

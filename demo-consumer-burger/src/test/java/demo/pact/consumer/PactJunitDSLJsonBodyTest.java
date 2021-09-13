@@ -45,7 +45,7 @@ public class PactJunitDSLJsonBodyTest {
 
         DslPart body = new PactDslJsonBody()
                 .numberType("qty", 2)
-                .stringType("prdname", "Cheese Burger")
+                .stringType("prdName", "Cheese Burger")
                 .stringType("description", "delicious")
                 .object("details")
                 .stringValue("addon", "Cheese")
@@ -84,10 +84,10 @@ public class PactJunitDSLJsonBodyTest {
 
         DslPart body = newJsonBody((root) -> {
             root.numberValue("qty", 2);
-            root.stringValue("prdname", "Cheese Burger");
+            root.stringValue("prdName", "Cheese Burger");
             root.stringValue("description", "delicious");
             root.object("details", (contactObject) -> {
-                contactObject.stringMatcher("addon", ".*@ariman.com", "Cheese");
+                contactObject.stringMatcher("addon", ".*se", "Cheese");
                 contactObject.stringType("sauce", "Tomato");
             });
         }).build();

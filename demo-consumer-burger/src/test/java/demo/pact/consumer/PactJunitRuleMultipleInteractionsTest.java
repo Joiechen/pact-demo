@@ -43,7 +43,7 @@ public class PactJunitRuleMultipleInteractionsTest {
                 .status(200)
                 .body("{\n" +
                         "    \"qty\": 2,\n" +
-                        "    \"prdname\": \"Cheese Burger\",\n" +
+                        "    \"prdName\": \"Cheese Burger\",\n" +
                         "    \"description\": \"delicious\",\n" +
                         "    \"details\": {\n" +
                         "        \"addon\": \"Cheese\",\n" +
@@ -60,7 +60,7 @@ public class PactJunitRuleMultipleInteractionsTest {
                 .status(200)
                 .body("{\n" +
                         "    \"qty\": 4,\n" +
-                        "    \"prdname\": \"Takamachi Nanoha\",\n" +
+                        "    \"prdName\": \"Fire Chicken\",\n" +
                         "    \"description\": \"delicious\",\n" +
                         "    \"details\": {\n" +
                         "        \"addon\": \"Coke\",\n" +

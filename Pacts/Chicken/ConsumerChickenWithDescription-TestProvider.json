@@ -3,7 +3,7 @@
     "name": "TestProvider"
   },
   "consumer": {
-    "name": "ConsumerChickenNoDescription"
+    "name": "ConsumerChickenWithDescription"
   },
   "interactions": [
     {
@@ -25,7 +25,7 @@
         "body": {
           "prdName": "Fire Chicken",
           "qty": 100,
-          "description": null,
+          "description": "delicious",
           "details": {
             "addon": "Coke",
             "sauce": "Chilli"
@@ -72,77 +72,7 @@
       },
       "providerStates": [
         {
-          "name": "No description"
-        }
-      ]
-    },
-    {
-      "description": "Query prdname is Chicken",
-      "request": {
-        "method": "GET",
-        "path": "/cart",
-        "query": {
-          "prdname": [
-            "Chicken"
-          ]
-        }
-      },
-      "response": {
-        "status": 200,
-        "headers": {
-          "Content-Type": "application/json;charset\u003dUTF-8"
-        },
-        "body": {
-          "description": null,
-          "details": {
-            "addon": "Coke",
-            "sauce": "Chilli"
-          },
-          "prdname": "Fire Chicken",
-          "qty": 4
-        },
-        "matchingRules": {
-          "body": {
-            "$.qty": {
-              "matchers": [
-                {
-                  "match": "number"
-                }
-              ],
-              "combine": "AND"
-            },
-            "$.details.addon": {
-              "matchers": [
-                {
-                  "match": "regex",
-                  "regex": ".*ke"
-                }
-              ],
-              "combine": "AND"
-            },
-            "$.details[\u0027sauce\u0027]": {
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ],
-              "combine": "AND"
-            }
-          }
-        },
-        "generators": {
-          "body": {
-            "$.qty": {
-              "type": "RandomInt",
-              "min": 0,
-              "max": 2147483647
-            }
-          }
-        }
-      },
-      "providerStates": [
-        {
-          "name": "No description"
+          "name": ""
         }
       ]
     }

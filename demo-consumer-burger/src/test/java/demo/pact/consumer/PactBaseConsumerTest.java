@@ -40,7 +40,7 @@ public class PactBaseConsumerTest extends ConsumerPactTest {
                 .status(200)
                 .body("{\n" +
                         "    \"qty\": 2,\n" +
-                        "    \"prdname\": \"Cheese Burger\",\n" +
+                        "    \"prdName\": \"Cheese Burger\",\n" +
                         "    \"description\": \"delicious\",\n" +
                         "    \"details\": {\n" +
                         "        \"addon\": \"Cheese\",\n" +

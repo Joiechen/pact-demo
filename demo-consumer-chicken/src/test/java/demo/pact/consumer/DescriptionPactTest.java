@@ -42,7 +42,7 @@ public class DescriptionPactTest {
 
         DslPart body = newJsonBody((root) -> {
             root.numberType("qty");
-            root.stringValue("prdname", "Fire Chicken");
+            root.stringValue("prdName", "Fire Chicken");
             root.stringValue("description", "delicious");
             root.object("details", (detailsObject) -> {
                 detailsObject.stringMatcher("addon", ".*ke", "Coke");
@@ -77,13 +77,13 @@ public class DescriptionPactTest {
     }
 
     @Test
-    public void testNoNationality() {
+    public void testNoDescription() {
         Map<String, String> headers = new HashMap<String, String>();
         headers.put("Content-Type", "application/json;charset=UTF-8");
 
         DslPart body = newJsonBody((root) -> {
             root.numberType("qty");
-            root.stringValue("prdname", "Fire Chicken");
+            root.stringValue("prdName", "Fire Chicken");
             root.stringValue("description", null);
             root.object("details", (detailsObject) -> {
                 detailsObject.stringMatcher("addon", ".*ke", "Coke");

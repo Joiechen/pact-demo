@@ -3,11 +3,11 @@
     "name": "TestProvider"
   },
   "consumer": {
-    "name": "BaseConsumer"
+    "name": "JunitRuleConsumer"
   },
   "interactions": [
     {
-      "description": "Pact demo Pact interaction",
+      "description": "Pact JVM example Pact interaction",
       "request": {
         "method": "GET",
         "path": "/cart",

@@ -3,11 +3,11 @@
     "name": "TestProvider"
   },
   "consumer": {
-    "name": "BaseConsumer"
+    "name": "JunitRuleMultipleInteractionsConsumer"
   },
   "interactions": [
     {
-      "description": "Pact demo Pact interaction",
+      "description": "Burger",
       "request": {
         "method": "GET",
         "path": "/cart",
@@ -29,6 +29,38 @@
           "details": {
             "addon": "Cheese",
             "sauce": "Tomato"
+          }
+        }
+      },
+      "providerStates": [
+        {
+          "name": ""
+        }
+      ]
+    },
+    {
+      "description": "Chicken",
+      "request": {
+        "method": "GET",
+        "path": "/cart",
+        "query": {
+          "prdname": [
+            "Chicken"
+          ]
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json;charset\u003dUTF-8"
+        },
+        "body": {
+          "qty": 4,
+          "prdName": "Fire Chicken",
+          "description": "delicious",
+          "details": {
+            "addon": "Coke",
+            "sauce": "Chilli"
           }
         }
       },

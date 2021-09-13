@@ -17,6 +17,9 @@
     + [1.1 Test Provider项目](#11-test-provider)
     + [1.2 Consumer Burger项目](#12-consumer-burger)
     + [1.3 Consumer Chicken项目](#13-consumer-chicken)
+  * [2. 在Provider和Consumer Burger之间进行契约测试](#2--providerburger)
+    + [2.1 新建测试用例](#21-test-cases)
+    + [2.2 在消费者服务Burger端运行测试](#22--run-the-tests)
 
 
 
@@ -59,22 +62,20 @@
 
 ![image](https://github.com/Joiechen/pact-demo/blob/master/screenshot/consumer.chicken.jpg)
 
-similar to Miku, Nanoha does not use the attribute `salary` neither but uses attribute `nationality`, so this
-is a little difference between the two consumers when consuming the response from the Provider's same endpoint.
+跟 Burger服务相似的, Chicken 没有使用变量 `qty` 但是使用了 `description`, 这就是这两个消费者服务的区别，
+但本质它们都是调用了相同的服务提供方的同一个后端接口.
 
 
-## 2. Contract Test between Provider and Consumer Burger
+## 2. 在服务提供者 Provider和消费者Burger之间进行契约测试
 
-Now, it's time to look into the tests.
+现在，开始进行契约测试.
 
-> This README will not go through all tests line by line, because
-the tests themselves are very simple and straightforward, so I will only point out some highlights for
-each test. For detailed explanation about the codes, please refer the [official document](https://github.com/DiUS/pact-jvm/tree/be4a32b08ebbd89321dc37cbfe838fdac37774b3/pact-jvm-consumer-junit)
+> 这个项目示例中不会涵盖所有的PACT的测试使用方式，更加详细的信息可以参考 [官方网站](https://github.com/DiUS/pact-jvm/tree/be4a32b08ebbd89321dc37cbfe838fdac37774b3/pact-jvm-consumer-junit)
 
-### 2.1. Create Test Cases
+### 2.1. 新建Test Cases
 
-By the time this example is created, PACT JVM Junit provides 3 ways to write the pact test file
-at consumer side, the **Basic Junit**, the **Junit Rule** and **Junit DSL**.
+在项目中使用了官方PACT-JVM中推荐的三种方式在消费者服务中进行契约测试，它们分别是：
+**Basic Junit**, **Junit Rule** 和 **Junit DSL**.
 
 
 #### 2.1.1. Basic Junit
@@ -84,61 +85,59 @@ at consumer side, the **Basic Junit**, the **Junit Rule** and **Junit DSL**.
 @SpringBootTest
 public class PactBaseConsumerTest extends ConsumerPactTest {
 
-    @Autowired
-    ProviderService providerService;
+  @Autowired
+  ProviderService providerService;
 
-    @Override
-    @Pact(provider="ExampleProvider", consumer="BaseConsumer")
-    public RequestResponsePact createPact(PactDslWithProvider builder) {
-        Map<String, String> headers = new HashMap<String, String>();
-        headers.put("Content-Type", "application/json;charset=UTF-8");
+  @Override
+  @Pact(provider="TestProvider", consumer="BaseConsumer")
+  public RequestResponsePact createPact(PactDslWithProvider builder) {
+    Map<String, String> headers = new HashMap<String, String>();
+    headers.put("Content-Type", "application/json;charset=UTF-8");
 
-        return builder
-                .given("")
-                .uponReceiving("Pact JVM example Pact interaction")
-                .path("/information")
-                .query("name=Miku")
-                .method("GET")
-                .willRespondWith()
-                .headers(headers)
-                .status(200)
-                .body("{\n" +
-                        "    \"salary\": 45000,\n" +
-                        "    \"name\": \"Hatsune Miku\",\n" +
-                        "    \"nationality\": \"Japan\",\n" +
-                        "    \"contact\": {\n" +
-                        "        \"Email\": \"hatsune.miku@ariman.com\",\n" +
-                        "        \"Phone Number\": \"9090950\"\n" +
-                        "    }\n" +
-                        "}")
+    return builder
+            .given("")
+            .uponReceiving("Pact demo Pact interaction")
+            .path("/cart")
+            .query("prdname=Burger")
+            .method("GET")
+            .willRespondWith()
+            .headers(headers)
+            .status(200)
+            .body("{\n" +
+                    "    \"qty\": 2,\n" +
+                    "    \"prdname\": \"Cheese Burger\",\n" +
+                    "    \"description\": \"delicious\",\n" +
+                    "    \"details\": {\n" +
+                    "        \"addon\": \"Cheese\",\n" +
+                    "        \"sauce\": \"Tomato\"\n" +
+                    "    }\n" +
+                    "}")
 
-                .toPact();
-    }
+            .toPact();
+  }
 
-    @Override
-    protected String providerName() {
-        return "ExampleProvider";
-    }
+  @Override
+  protected String providerName() {
+    return "TestProvider";
+  }
 
-    @Override
-    protected String consumerName() {
-        return "BaseConsumer";
-    }
+  @Override
+  protected String consumerName() {
+    return "BaseConsumer";
+  }
 
-    @Override
-    protected void runTest(MockServer mockServer, PactTestExecutionContext context) {
-        providerService.setBackendURL(mockServer.getUrl());
-        Information information = providerService.getInformation();
-        assertEquals(information.getName(), "Hatsune Miku");
-    }
+  @Override
+  protected void runTest(MockServer mockServer, PactTestExecutionContext context) {
+    providerService.setBackendURL(mockServer.getUrl());
+    Cart cart = providerService.getCart();
+    assertEquals(cart.getPrdName(), "Cheese Burger");
+  }
 }
 ```
-The `providerService` is the same one used in consumer Miku, we just use it to do a self
-integration test, the purpose for this is to check if consumer Miku can handle the mocked
-response correctly, then ensure the Pact content created are just as we need before we send
-it to Provider.
+在这个项目中的 `providerService` 是跟消费者服务Burger自身去调用Provider一样的, 这里只是用来做集成测试的,
+目的是为了在发给送Provider之前对于PACT生成的内容进行检查，确保是正确的。
 
-`mockServer.getUrl()` can return the mock server's url, which is to be used in our handler.
+`mockServer.getUrl()` 能返回mock服务的url.
 
 #### 2.1.2. Junit Rule
 `PactJunitRuleTest.java`
@@ -147,48 +146,48 @@ it to Provider.
 @SpringBootTest
 public class PactJunitRuleTest {
 
-    @Autowired
-    ProviderService providerService;
+  @Autowired
+  ProviderService providerService;
 
-    @Rule
-    public PactProviderRule mockProvider = new PactProviderRule("ExampleProvider", this);
+  @Rule
+  public PactProviderRule mockProvider = new PactProviderRule("TestProvider", this);
 
-    @Pact(consumer = "JunitRuleConsumer")
-    public RequestResponsePact createPact(PactDslWithProvider builder) {
-        Map<String, String> headers = new HashMap<String, String>();
-        headers.put("Content-Type", "application/json;charset=UTF-8");
+  @Pact(consumer = "JunitRuleConsumer")
+  public RequestResponsePact createPact(PactDslWithProvider builder) {
+    Map<String, String> headers = new HashMap<String, String>();
+    headers.put("Content-Type", "application/json;charset=UTF-8");
 
-        return builder
-                .given("")
-                .uponReceiving("Pact JVM example Pact interaction")
-                .path("/information")
-                .query("name=Miku")
-                .method("GET")
-                .willRespondWith()
-                .headers(headers)
-                .status(200)
-                .body("{\n" +
-                        "    \"salary\": 45000,\n" +
-                        "    \"name\": \"Hatsune Miku\",\n" +
-                        "    \"nationality\": \"Japan\",\n" +
-                        "    \"contact\": {\n" +
-                        "        \"Email\": \"hatsune.miku@ariman.com\",\n" +
-                        "        \"Phone Number\": \"9090950\"\n" +
-                        "    }\n" +
-                        "}")
-                .toPact();
-    }
+    return builder
+            .given("")
+            .uponReceiving("Pact JVM example Pact interaction")
+            .path("/cart")
+            .query("prdname=Burger")
+            .method("GET")
+            .willRespondWith()
+            .headers(headers)
+            .status(200)
+            .body("{\n" +
+                    "    \"qty\": 2,\n" +
+                    "    \"prdname\": \"Cheese Burger\",\n" +
+                    "    \"description\": \"delicious\",\n" +
+                    "    \"details\": {\n" +
+                    "        \"addon\": \"Cheese\",\n" +
+                    "        \"sauce\": \"Tomato\"\n" +
+                    "    }\n" +
+                    "}")
+            .toPact();
+  }
 
-    @Test
-    @PactVerification
-    public void runTest() {
-        providerService.setBackendURL(mockProvider.getUrl());
-        Information information = providerService.getInformation();
-        assertEquals(information.getName(), "Hatsune Miku");
-    }
+  @Test
+  @PactVerification
+  public void runTest() {
+    providerService.setBackendURL(mockProvider.getUrl());
+    Cart cart = providerService.getCart();
+    assertEquals(cart.getPrdName(), "Cheese Burger");
+  }
 }
 ```
-This test uses Junit Rule which can simplify the writing of test cases comparing with the Basic Junit.
+下面的是 Junit Rule 方式写的测试用例，可以跟上面的Basic Junit测试用例进行对比。
 
 `PactJunitRuleMultipleInteractionsTest.java`
 ```java
@@ -196,69 +195,69 @@ This test uses Junit Rule which can simplify the writing of test cases comparing
 @SpringBootTest
 public class PactJunitRuleMultipleInteractionsTest {
 
-    @Autowired
-    ProviderService providerService;
-    
-    @Rule
-    public PactProviderRule mockProvider = new PactProviderRule("ExampleProvider",this);
+  @Autowired
+  ProviderService providerService;
 
-    @Pact(consumer="JunitRuleMultipleInteractionsConsumer")
-    public RequestResponsePact createPact(PactDslWithProvider builder) {
-        Map<String, String> headers = new HashMap<String, String>();
-        headers.put("Content-Type", "application/json;charset=UTF-8");
+  @Rule
+  public PactProviderRule mockProvider = new PactProviderRule("TestProvider",this);
 
-        return builder
-                .given("")
-                .uponReceiving("Miku")
-                .path("/information")
-                .query("name=Miku")
-                .method("GET")
-                .willRespondWith()
-                .headers(headers)
-                .status(200)
-                .body("{\n" +
-                        "    \"salary\": 45000,\n" +
-                        "    \"name\": \"Hatsune Miku\",\n" +
-                        "    \"nationality\": \"Japan\",\n" +
-                        "    \"contact\": {\n" +
-                        "        \"Email\": \"hatsune.miku@ariman.com\",\n" +
-                        "        \"Phone Number\": \"9090950\"\n" +
-                        "    }\n" +
-                        "}")
-                .given("")
-                .uponReceiving("Nanoha")
-                .path("/information")
-                .query("name=Nanoha")
-                .method("GET")
-                .willRespondWith()
-                .headers(headers)
-                .status(200)
-                .body("{\n" +
-                        "    \"salary\": 80000,\n" +
-                        "    \"name\": \"Takamachi Nanoha\",\n" +
-                        "    \"nationality\": \"Japan\",\n" +
-                        "    \"contact\": {\n" +
-                        "        \"Email\": \"takamachi.nanoha@ariman.com\",\n" +
-                        "        \"Phone Number\": \"9090940\"\n" +
-                        "    }\n" +
-                        "}")
-                .toPact();
-    }
+  @Pact(consumer="JunitRuleMultipleInteractionsConsumer")
+  public RequestResponsePact createPact(PactDslWithProvider builder) {
+    Map<String, String> headers = new HashMap<String, String>();
+    headers.put("Content-Type", "application/json;charset=UTF-8");
 
-    @Test
-    @PactVerification()
-    public void runTest() {
-        providerService.setBackendURL(mockProvider.getUrl());
-        Information information = providerService.getInformation();
-        assertEquals(information.getName(), "Hatsune Miku");
+    return builder
+            .given("")
+            .uponReceiving("Burger")
+            .path("/cart")
+            .query("prdname=Burger")
+            .method("GET")
+            .willRespondWith()
+            .headers(headers)
+            .status(200)
+            .body("{\n" +
+                    "    \"qty\": 2,\n" +
+                    "    \"prdname\": \"Cheese Burger\",\n" +
+                    "    \"description\": \"delicious\",\n" +
+                    "    \"details\": {\n" +
+                    "        \"addon\": \"Cheese\",\n" +
+                    "        \"sauce\": \"Tomato\"\n" +
+                    "    }\n" +
+                    "}")
+            .given("")
+            .uponReceiving("Chicken")
+            .path("/cart")
+            .query("prdname=Chicken")
+            .method("GET")
+            .willRespondWith()
+            .headers(headers)
+            .status(200)
+            .body("{\n" +
+                    "    \"qty\": 4,\n" +
+                    "    \"prdname\": \"Fire Chicken\",\n" +
+                    "    \"description\": \"delicious\",\n" +
+                    "    \"details\": {\n" +
+                    "        \"addon\": \"Coke\",\n" +
+                    "        \"sauce\": \"Chilli\"\n" +
+                    "    }\n" +
+                    "}")
+            .toPact();
+  }
 
-        providerService.setBackendURL(mockProvider.getUrl(), "Nanoha");
-        information = providerService.getInformation();
-        assertEquals(information.getName(), "Takamachi Nanoha");
-    }
+  @Test
+  @PactVerification()
+  public void runTest() {
+    providerService.setBackendURL(mockProvider.getUrl());
+    Cart cart = providerService.getCart();
+    assertEquals(cart.getPrdName(), "Cheese Burger");
+
+    providerService.setBackendURL(mockProvider.getUrl(), "Chicken");
+    cart = providerService.getCart();
+    assertEquals(cart.getPrdName(), "Fire Chicken");
+  }
 }
 ```
-This case uses Junit Rule too, but with two interactions in one Pact file.
+下面的测试用例也是使用了 Junit Rule 方式写的, 但是在一个PACT文件中使用了两个不同的pact交互.
 
 #### 2.1.3. Junit DSL
 `PactJunitDSLTest`
@@ -267,95 +266,94 @@ This case uses Junit Rule too, but with two interactions in one Pact file.
 @SpringBootTest
 public class PactJunitDSLTest {
 
-    @Autowired
-    ProviderService providerService;
+  @Autowired
+  ProviderService providerService;
 
-    private void checkResult(PactVerificationResult result) {
-        if (result instanceof PactVerificationResult.Error) {
-            throw new RuntimeException(((PactVerificationResult.Error) result).getError());
-        }
-        assertThat(result, is(instanceOf(PactVerificationResult.Ok.class)));
+  private void checkResult(PactVerificationResult result) {
+    if (result instanceof PactVerificationResult.Error) {
+      throw new RuntimeException(((PactVerificationResult.Error) result).getError());
     }
+    assertThat(result, is(instanceOf(PactVerificationResult.Ok.class)));
+  }
 
-    @Test
-    public void testPact1() {
-        Map<String, String> headers = new HashMap<String, String>();
-        headers.put("Content-Type", "application/json;charset=UTF-8");
+  @Test
+  public void testPact1() {
+    Map<String, String> headers = new HashMap<String, String>();
+    headers.put("Content-Type", "application/json;charset=UTF-8");
 
-        RequestResponsePact pact = ConsumerPactBuilder
-                .consumer("JunitDSLConsumer1")
-                .hasPactWith("ExampleProvider")
-                .given("")
-                .uponReceiving("Query name is Miku")
-                .path("/information")
-                .query("name=Miku")
-                .method("GET")
-                .willRespondWith()
-                .headers(headers)
-                .status(200)
-                .body("{\n" +
-                        "    \"salary\": 45000,\n" +
-                        "    \"name\": \"Hatsune Miku\",\n" +
-                        "    \"nationality\": \"Japan\",\n" +
-                        "    \"contact\": {\n" +
-                        "        \"Email\": \"hatsune.miku@ariman.com\",\n" +
-                        "        \"Phone Number\": \"9090950\"\n" +
-                        "    }\n" +
-                        "}")
-                .toPact();
+    RequestResponsePact pact = ConsumerPactBuilder
+            .consumer("JunitDSLConsumer1")
+            .hasPactWith("TestProvider")
+            .given("")
+            .uponReceiving("Query name is Burger")
+            .path("/cart")
+            .query("prdname=Burger")
+            .method("GET")
+            .willRespondWith()
+            .headers(headers)
+            .status(200)
+            .body("{\n" +
+                    "    \"qty\": 2,\n" +
+                    "    \"prdname\": \"Cheese Burger\",\n" +
+                    "    \"description\": \"delicious\",\n" +
+                    "    \"details\": {\n" +
+                    "        \"addon\": \"Cheese\",\n" +
+                    "        \"sauce\": \"Tomato\"\n" +
+                    "    }\n" +
+                    "}")
+            .toPact();
 
-        MockProviderConfig config = MockProviderConfig.createDefault();
-        PactVerificationResult result = runConsumerTest(pact, config, (mockServer, context) -> {
-            providerService.setBackendURL(mockServer.getUrl(), "Miku");
-            Information information = providerService.getInformation();
-            assertEquals(information.getName(), "Hatsune Miku");
-            return null;
-        });
+    MockProviderConfig config = MockProviderConfig.createDefault();
+    PactVerificationResult result = runConsumerTest(pact, config, (mockServer, context) -> {
+      providerService.setBackendURL(mockServer.getUrl(), "Burger");
+      Cart cart = providerService.getCart();
+      assertEquals(cart.getPrdName(), "Cheese Burger");
+      return null;
+    });
 
-        checkResult(result);
-    }
+    checkResult(result);
+  }
 
-    @Test
-    public void testPact2() {
-        Map<String, String> headers = new HashMap<String, String>();
-        headers.put("Content-Type", "application/json;charset=UTF-8");
+  @Test
+  public void testPact2() {
+    Map<String, String> headers = new HashMap<String, String>();
+    headers.put("Content-Type", "application/json;charset=UTF-8");
 
-        RequestResponsePact pact = ConsumerPactBuilder
-                .consumer("JunitDSLConsumer2")
-                .hasPactWith("ExampleProvider")
-                .given("")
-                .uponReceiving("Query name is Nanoha")
-                .path("/information")
-                .query("name=Nanoha")
-                .method("GET")
-                .willRespondWith()
-                .headers(headers)
-                .status(200)
-                .body("{\n" +
-                        "    \"salary\": 80000,\n" +
-                        "    \"name\": \"Takamachi Nanoha\",\n" +
-                        "    \"nationality\": \"Japan\",\n" +
-                        "    \"contact\": {\n" +
-                        "        \"Email\": \"takamachi.nanoha@ariman.com\",\n" +
-                        "        \"Phone Number\": \"9090940\"\n" +
-                        "    }\n" +
-                        "}")
-                .toPact();
+    RequestResponsePact pact = ConsumerPactBuilder
+            .consumer("JunitDSLConsumer2")
+            .hasPactWith("TestProvider")
+            .given("")
+            .uponReceiving("Query name is Chicken")
+            .path("/cart")
+            .query("prdname=Chicken")
+            .method("GET")
+            .willRespondWith()
+            .headers(headers)
+            .status(200)
+            .body("{\n" +
+                    "    \"qty\": 4,\n" +
+                    "    \"prdname\": \"Fire Chicken\",\n" +
+                    "    \"description\": \"delicious\",\n" +
+                    "    \"details\": {\n" +
+                    "        \"addon\": \"Coke\",\n" +
+                    "        \"sauce\": \"Chilli\"\n" +
+                    "    }\n" +
+                    "}")
+            .toPact();
 
-        MockProviderConfig config = MockProviderConfig.createDefault();
-        PactVerificationResult result = runConsumerTest(pact, config, (mockServer, context) -> {
-            providerService.setBackendURL(mockServer.getUrl(), "Nanoha");
-            Information information = providerService.getInformation();
-            assertEquals(information.getName(), "Takamachi Nanoha");
-            return null;
-        });
+    MockProviderConfig config = MockProviderConfig.createDefault();
+    PactVerificationResult result = runConsumerTest(pact, config, (mockServer, context) -> {
+      providerService.setBackendURL(mockServer.getUrl(), "Chicken");
+      Cart cart = providerService.getCart();
+      assertEquals(cart.getPrdName(), "Fire Chicken");
+      return null;
+    });
 
-        checkResult(result);
-    }
+    checkResult(result);
+  }
 }
 ```
-Comparing with Basic Junit and Junit Rule usage, the DSL provides the ability to create multiple Pact files
-in one test class.
+对比 Basic Junit 和 Junit Rule 的用法,DSL的方式有能力在一个test class文件中去创建更多不同的PACT文件。如下：
 
 `PactJunitDSLJsonBodyTest`
 ```java
@@ -363,108 +361,106 @@ in one test class.
 @SpringBootTest
 public class PactJunitDSLJsonBodyTest {
 
-    @Autowired
-    ProviderService providerService;
+  @Autowired
+  ProviderService providerService;
 
-    private void checkResult(PactVerificationResult result) {
-        if (result instanceof PactVerificationResult.Error) {
-            throw new RuntimeException(((PactVerificationResult.Error) result).getError());
-        }
-        assertThat(result, is(instanceOf(PactVerificationResult.Ok.class)));
+  private void checkResult(PactVerificationResult result) {
+    if (result instanceof PactVerificationResult.Error) {
+      throw new RuntimeException(((PactVerificationResult.Error) result).getError());
     }
+    assertThat(result, is(instanceOf(PactVerificationResult.Ok.class)));
+  }
 
-    @Test
-    public void testWithPactDSLJsonBody() {
-        Map<String, String> headers = new HashMap<String, String>();
-        headers.put("Content-Type", "application/json;charset=UTF-8");
+  @Test
+  public void testWithPactDSLJsonBody() {
+    Map<String, String> headers = new HashMap<String, String>();
+    headers.put("Content-Type", "application/json;charset=UTF-8");
 
-        DslPart body = new PactDslJsonBody()
-                .numberType("salary", 45000)
-                .stringType("name", "Hatsune Miku")
-                .stringType("nationality", "Japan")
-                .object("contact")
-                .stringValue("Email", "hatsune.miku@ariman.com")
-                .stringValue("Phone Number", "9090950")
-                .closeObject();
+    DslPart body = new PactDslJsonBody()
+            .numberType("qty", 2)
+            .stringType("prdname", "Cheese Burger")
+            .stringType("description", "delicious")
+            .object("details")
+            .stringValue("addon", "Cheese")
+            .stringValue("sauce", "Tomato")
+            .closeObject();
 
-        RequestResponsePact pact = ConsumerPactBuilder
-                .consumer("JunitDSLJsonBodyConsumer")
-                .hasPactWith("ExampleProvider")
-                .given("")
-                .uponReceiving("Query name is Miku")
-                .path("/information")
-                .query("name=Miku")
-                .method("GET")
-                .willRespondWith()
-                .headers(headers)
-                .status(200)
-                .body(body)
-                .toPact();
+    RequestResponsePact pact = ConsumerPactBuilder
+            .consumer("JunitDSLJsonBodyConsumer")
+            .hasPactWith("TestProvider")
+            .given("")
+            .uponReceiving("Query name is Burger")
+            .path("/cart")
+            .query("prdname=Burger")
+            .method("GET")
+            .willRespondWith()
+            .headers(headers)
+            .status(200)
+            .body(body)
+            .toPact();
 
-        MockProviderConfig config = MockProviderConfig.createDefault(PactSpecVersion.V3);
-        PactVerificationResult result = runConsumerTest(pact, config, (mockServer, context) -> {
-            providerService.setBackendURL(mockServer.getUrl());
-            Information information = providerService.getInformation();
-            assertEquals(information.getName(), "Hatsune Miku");
-            return null;
-        });
+    MockProviderConfig config = MockProviderConfig.createDefault(PactSpecVersion.V3);
+    PactVerificationResult result = runConsumerTest(pact, config, (mockServer, context) -> {
+      providerService.setBackendURL(mockServer.getUrl());
+      Cart cart = providerService.getCart();
+      assertEquals(cart.getPrdName(), "Cheese Burger");
+      return null;
+    });
 
-        checkResult(result);
-    }
+    checkResult(result);
+  }
 
-    @Test
-    public void testWithLambdaDSLJsonBody() {
-        Map<String, String> headers = new HashMap<String, String>();
-        headers.put("Content-Type", "application/json;charset=UTF-8");
+  @Test
+  public void testWithLambdaDSLJsonBody() {
+    Map<String, String> headers = new HashMap<String, String>();
+    headers.put("Content-Type", "application/json;charset=UTF-8");
 
-        DslPart body = newJsonBody((root) -> {
-            root.numberValue("salary", 45000);
-            root.stringValue("name", "Hatsune Miku");
-            root.stringValue("nationality", "Japan");
-            root.object("contact", (contactObject) -> {
-                contactObject.stringMatcher("Email", ".*@ariman.com", "hatsune.miku@ariman.com");
-                contactObject.stringType("Phone Number", "9090950");
-            });
-        }).build();
+    DslPart body = newJsonBody((root) -> {
+      root.numberValue("qty", 2);
+      root.stringValue("prdname", "Cheese Burger");
+      root.stringValue("description", "delicious");
+      root.object("details", (contactObject) -> {
+        contactObject.stringMatcher("addon", ".*se", "Cheese");
+        contactObject.stringType("sauce", "Tomato");
+      });
+    }).build();
 
-        RequestResponsePact pact = ConsumerPactBuilder
-                .consumer("JunitDSLLambdaJsonBodyConsumer")
-                .hasPactWith("ExampleProvider")
-                .given("")
-                .uponReceiving("Query name is Miku")
-                .path("/information")
-                .query("name=Miku")
-                .method("GET")
-                .willRespondWith()
-                .headers(headers)
-                .status(200)
-                .body(body)
-                .toPact();
+    RequestResponsePact pact = ConsumerPactBuilder
+            .consumer("JunitDSLLambdaJsonBodyConsumer")
+            .hasPactWith("TestProvider")
+            .given("")
+            .uponReceiving("Query name is Burger")
+            .path("/cart")
+            .query("prdname=Burger")
+            .method("GET")
+            .willRespondWith()
+            .headers(headers)
+            .status(200)
+            .body(body)
+            .toPact();
 
-        MockProviderConfig config = MockProviderConfig.createDefault(PactSpecVersion.V3);
-        PactVerificationResult result = runConsumerTest(pact, config, (mockServer, context) -> {
-            providerService.setBackendURL(mockServer.getUrl());
-            Information information = providerService.getInformation();
-            assertEquals(information.getName(), "Hatsune Miku");
-            return null;
-        });
+    MockProviderConfig config = MockProviderConfig.createDefault(PactSpecVersion.V3);
+    PactVerificationResult result = runConsumerTest(pact, config, (mockServer, context) -> {
+      providerService.setBackendURL(mockServer.getUrl());
+      Cart cart = providerService.getCart();
+      assertEquals(cart.getPrdName(), "Cheese Burger");
+      return null;
+    });
 
-        checkResult(result);
-    }
+    checkResult(result);
+  }
+
 }
 ```
-When use Json Body in DSL usage, we can control the test accuracy by defining whether we check the response
-body's attributes by Value or by Type, or even with Regular Expression. Comparing with normal Json body, the
-Lambda statements can avoid using `.close**()` methods to make the codes more clean. You can find more
-description about it [here](https://github.com/DiUS/pact-jvm/tree/be4a32b08ebbd89321dc37cbfe838fdac37774b3/pact-jvm-consumer-java8).
+当使用 DSL中Json Body的检查时, 我们可以对于请求的返回体进行Value或者Type，甚至正则表达式的检查，具体的使用方式可以参考
+[参考文档](https://github.com/DiUS/pact-jvm/tree/be4a32b08ebbd89321dc37cbfe838fdac37774b3/pact-jvm-consumer-java8).
 
-### 2.2. Run the Tests at Consumer Miku side
-Because we are using Junit, so to run the tests and create Pact files are very easy, just as what we always
-run our usual Unit Test:
+### 2.2. 在消费者服务端 Run the Tests
+要运行测试，在本地运行以下命令运行（跟junit的运行方式一样）:
 
-`./gradlew :example-consumer-miku:clean test`
+`./gradlew :demo-consumer-burger:clean test`
 
-After that, you can find 7 JSON files created in folder `Pacts\Miku`. These are the Pacts which contain the
+After that, you can find 7 JSON files created in folder `Pacts\Burger`. These are the Pacts which contain the
 contract between Miku and Provider, and these Pacts will be used to drive the Contract Test later at Provider
 side.
 
@@ -929,8 +925,4 @@ Failures:
 
 ...
 ```
-
-## 6. Contribution
-I'm not always tracking this example repository with the latest Pact-JVM version, so if you find there is new Pact-JVM released, and you'd like to put it
-into this example, any PR is welcome.
 

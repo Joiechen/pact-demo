@@ -3,11 +3,11 @@
     "name": "TestProvider"
   },
   "consumer": {
-    "name": "BaseConsumer"
+    "name": "JunitDSLLambdaJsonBodyConsumer"
   },
   "interactions": [
     {
-      "description": "Pact demo Pact interaction",
+      "description": "Query name is Burger",
       "request": {
         "method": "GET",
         "path": "/cart",
@@ -23,12 +23,33 @@
           "Content-Type": "application/json;charset\u003dUTF-8"
         },
         "body": {
-          "qty": 2,
           "prdName": "Cheese Burger",
+          "qty": 2,
           "description": "delicious",
           "details": {
             "addon": "Cheese",
             "sauce": "Tomato"
+          }
+        },
+        "matchingRules": {
+          "body": {
+            "$.details.addon": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": ".*se"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.details.sauce": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            }
           }
         }
       },
