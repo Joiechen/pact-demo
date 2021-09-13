@@ -112,7 +112,7 @@ public class PactBaseConsumerTest extends ConsumerPactTest {
             .status(200)
             .body("{\n" +
                     "    \"qty\": 2,\n" +
-                    "    \"prdname\": \"Cheese Burger\",\n" +
+                    "    \"prdName\": \"Cheese Burger\",\n" +
                     "    \"description\": \"delicious\",\n" +
                     "    \"details\": {\n" +
                     "        \"addon\": \"Cheese\",\n" +
@@ -175,7 +175,7 @@ public class PactJunitRuleTest {
             .status(200)
             .body("{\n" +
                     "    \"qty\": 2,\n" +
-                    "    \"prdname\": \"Cheese Burger\",\n" +
+                    "    \"prdName\": \"Cheese Burger\",\n" +
                     "    \"description\": \"delicious\",\n" +
                     "    \"details\": {\n" +
                     "        \"addon\": \"Cheese\",\n" +
@@ -224,7 +224,7 @@ public class PactJunitRuleMultipleInteractionsTest {
             .status(200)
             .body("{\n" +
                     "    \"qty\": 2,\n" +
-                    "    \"prdname\": \"Cheese Burger\",\n" +
+                    "    \"prdName\": \"Cheese Burger\",\n" +
                     "    \"description\": \"delicious\",\n" +
                     "    \"details\": {\n" +
                     "        \"addon\": \"Cheese\",\n" +
@@ -241,7 +241,7 @@ public class PactJunitRuleMultipleInteractionsTest {
             .status(200)
             .body("{\n" +
                     "    \"qty\": 4,\n" +
-                    "    \"prdname\": \"Fire Chicken\",\n" +
+                    "    \"prdName\": \"Fire Chicken\",\n" +
                     "    \"description\": \"delicious\",\n" +
                     "    \"details\": {\n" +
                     "        \"addon\": \"Coke\",\n" +
@@ -301,7 +301,7 @@ public class PactJunitDSLTest {
             .status(200)
             .body("{\n" +
                     "    \"qty\": 2,\n" +
-                    "    \"prdname\": \"Cheese Burger\",\n" +
+                    "    \"prdName\": \"Cheese Burger\",\n" +
                     "    \"description\": \"delicious\",\n" +
                     "    \"details\": {\n" +
                     "        \"addon\": \"Cheese\",\n" +
@@ -339,7 +339,7 @@ public class PactJunitDSLTest {
             .status(200)
             .body("{\n" +
                     "    \"qty\": 4,\n" +
-                    "    \"prdname\": \"Fire Chicken\",\n" +
+                    "    \"prdName\": \"Fire Chicken\",\n" +
                     "    \"description\": \"delicious\",\n" +
                     "    \"details\": {\n" +
                     "        \"addon\": \"Coke\",\n" +
@@ -424,7 +424,7 @@ public class PactJunitDSLJsonBodyTest {
 
     DslPart body = newJsonBody((root) -> {
       root.numberValue("qty", 2);
-      root.stringValue("prdname", "Cheese Burger");
+      root.stringValue("prdName", "Cheese Burger");
       root.stringValue("description", "delicious");
       root.object("details", (contactObject) -> {
         contactObject.stringMatcher("addon", ".*se", "Cheese");
