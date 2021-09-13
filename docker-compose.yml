@@ -11,7 +11,7 @@ services:
       POSTGRES_PASSWORD: password
 
   broker_app:
-    image: test/pact-broker
+    image: dius/pact-broker
     ports:
       - "80:80"
     links:

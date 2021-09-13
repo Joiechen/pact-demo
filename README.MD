@@ -460,54 +460,48 @@ public class PactJunitDSLJsonBodyTest {
 
 `./gradlew :demo-consumer-burger:clean test`
 
-After that, you can find 7 JSON files created in folder `Pacts\Burger`. These are the Pacts which contain the
-contract between Miku and Provider, and these Pacts will be used to drive the Contract Test later at Provider
-side.
+运行成功后，会有 7 个 Json 文件被新建在了文件夹 `Pacts\Burger` 中. 这些Pacts就是包含了Burger服务和Provider之间的契约协议的
+, 这些Pacts将被在后续用来驱动测试 Provider服务端。
 
-### 2.3. Publish Pacts to Pact Broker
-The JSON files generated with task `test` are in the local folder which are only reachable to our local Provider,
-while for real project practice, it's highly recommended to use [Pact Broker](https://github.com/pact-foundation/pact_broker)
-to transport the Pacts between Consumers and Providers.
+### 2.3. 发布 Pacts 到 Pact Broker
 
-> There's a `docker-compose.yml` file that aids setting up an instance of the Pact Broker.
-> Run `docker-compose up` and you'll have a Broker running at `http://localhost/`.
-> It'll set up an instance of PostgreSQL as well, but the data will be lost at every restart.
-> In order to use it, in `build.gradle`, set `pactBrokerUrl` to `http://localhost` and both `pactBrokerUsername` and `pactBrokerPassword` to `''`.
+> 项目中的 `docker-compose.yml` 文件配置了一个 Pact Broker.
+> 运行 `docker-compose up` 你就可以访问Broker服务 `http://localhost/`.
+> 这个Broker服务使用了PostgreSQL 数据库, 数据会在每次重启的时候丢失.
+> 在 `build.gradle`中设置 `pactBrokerUrl` 为 `http://localhost` 并且设置 `pactBrokerUsername` 和 `pactBrokerPassword` 为 `''`.
 
 After you set up a Pact Broker server for your own, you can easily share your Pacts to the broker with the `pactPublish` command:
 
-`./gradlew :example-consumer-miku:pactPublish`
+`./gradlew :demo-consumer-burger:pactPublish`
 
-This command will upload your Pacts to the broker server:
+这个命令会发布所有的 Pacts 到 broker 服务:
 
 ```commandline
-> Task :example-consumer-miku:pactPublish 
-Publishing JunitDSLConsumer1-ExampleProvider.json ... HTTP/1.1 200 OK
-Publishing JunitDSLJsonBodyConsumer-ExampleProvider.json ... HTTP/1.1 200 OK
-Publishing JunitDSLLambdaJsonBodyConsumer-ExampleProvider.json ... HTTP/1.1 200 OK
-Publishing BaseConsumer-ExampleProvider.json ... HTTP/1.1 200 OK
-Publishing JunitRuleConsumer-ExampleProvider.json ... HTTP/1.1 200 OK
-Publishing JunitRuleMultipleInteractionsConsumer-ExampleProvider.json ... HTTP/1.1 200 OK
-Publishing JunitDSLConsumer2-ExampleProvider.json ... HTTP/1.1 200 OK
+> Task :demo-consumer-burger:pactPublish
+Publishing 'JunitDSLConsumer1-TestProvider.json' ... HTTP/1.1 201 Created
+Publishing 'JunitDSLConsumer2-TestProvider.json' ... HTTP/1.1 201 Created
+Publishing 'JunitRuleConsumer-TestProvider.json' ... HTTP/1.1 201 Created
+Publishing 'JunitRuleMultipleInteractionsConsumer-TestProvider.json' ... HTTP/1.1 201 Created
+Publishing 'JunitDSLJsonBodyConsumer-TestProvider.json' ... HTTP/1.1 201 Created
+Publishing 'JunitDSLLambdaJsonBodyConsumer-TestProvider.json' ... HTTP/1.1 201 Created
+Publishing 'BaseConsumer-TestProvider.json' ... HTTP/1.1 201 Created
 ```
 
-Then you can find the *Relationships* in [our Pact Broker](https://ariman.pact.dius.com.au/)
 
-> you can find their are '7' consumers to 1 provider, in real project, it should NOT like that, because we have only one
-consumer Miku here, it should be only 1 consumer to 1 provider, while in this example, making it's '7' is only to show
-that how Pact Broker can display the relationships beautifully.
+> 在这个测试Broker服务中，会看到有7个consumer在消费Provider，这个在真实的项目中是不会发生的，
+> 这个图只是为了说明在broker服务中能很好的看到各个服务之间的调用关系.
 
-![image](https://github.com/Mikuu/Pact-JVM-Example/blob/master/screenshot/pact-broker.png)
+![image](https://github.com/Joiechen/pact-demo/blob/master/screenshot/pact-broker.jpg)
 
-Later, our Provider can fetch these Pacts from broker to drive the Contract Test.
+稍后，Provider会从broker中获取到这些Pacts来进行契约测试.
 
-### 2.4. Run the Contract Test at Provider side
+### 2.4. 在Provider服务端运行契约测试
 We are using the Pact Gradle task in Provider side to run the Contract Test, which can be very easy without
 writing any code, just execute the `pactVerify` task. **Before we run the test, make sure the Provider API is already started and running at our localhost.**
 
 Then we can run the test as:
 
-`./gradlew :example-provider:pactVerify`
+`./gradlew :test-provider:pactVerify`
 
 and you can find the test results at the command line, would be something likes:
 
@@ -566,7 +560,7 @@ correct and incorrect pacts, so don't be surprised if your tests run failed with
 always upload correct pacts to the broker, but just don't rely on it, the pacts in this broker may be cleared at anytime
 for reset a clean environment.
 
-## 3. Gradle Configuration
+## 3. Gradle配置
 
 Before we continue to Consumer Nanoha, let's look at the Gradle Configuration first:
 
@@ -829,19 +823,19 @@ To run the test:
 
 Then you can find two Pacts files generated at `Pacts\Nanoha`.
 
-### 4.3. Run Contract Test at Provider side
+### 4.3. 在Provider端进行契约测试
 
-#### 4.3.1. start Provider application
+#### 4.3.1. 启动Provider应用
 
 As we mentioned above, before we running our test, we need start Provider application with profile "pact" (if your
 Provider application is already started when you ran test with Miku, please kill it first), the command
 is:
 
 ```commandline
-SPRING_PROFILES_ACTIVE=pact ./gradlew :example-provider:bootRun
+SPRING_PROFILES_ACTIVE=pact ./gradlew :test-provider:bootRun
 ```
 
-#### 4.3.2. update Gradle configuration
+#### 4.3.2. 修改 Gradle 配置
 
 it's time to uncomment the Pacts file searching path in Provider configuration:
 
@@ -863,7 +857,7 @@ The first Pact will check the payload with default `.nationality` which value is
 define a `stateChangeUrl` which is implemented by `PactController` in Provider as we talked above, and the POST body
 is defined in `.given()` in the Pact.
 
-#### 4.3.3. run the contract test
+#### 4.3.3. 运行contract test
 
 the same command as we did with Consumer Miku:
 
@@ -873,7 +867,7 @@ the same command as we did with Consumer Miku:
 
 Then you can get the test log in the same terminal.
 
-## 5. Break Something
+## 5. 改错一些东西
 
 Is everything done? Yes, if you followed all above introductions until here, you should be able to create your Contract
 Test by yourself. But before you go to real, let's try to break something to see how Pact could find the defect.
@@ -902,7 +896,7 @@ public class InformationController {
 }
 ```
 
-### 5.2. Retest
+### 5.2. 重新测试
 
 Restart your Provider application and run the test again, you can get the test failures as this:
 

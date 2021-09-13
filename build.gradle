@@ -55,7 +55,7 @@ project(':demo-consumer-burger') {
 
 
             //This is to local Pact Broker in Docker
-            //pactBrokerUrl = "http://localhost"
+            pactBrokerUrl = "http://localhost"
         }
     }
 }
@@ -102,7 +102,7 @@ project(':test-provider') {
  //               hasPactsFromPactBroker(mybrokerUrl, authentication: ['Basic', mybrokerUser, mybrokerPassword])
 
                 // This is for local Pact Broker in Docker
- //               hasPactsFromPactBroker("http://localhost:8888/")
+ //               hasPactsFromPactBroker("http://localhost/")
 
                 // Test Pacts from local Chicken
 //                hasPactWith('Chicken - With Description') {
