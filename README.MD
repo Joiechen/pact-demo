@@ -14,15 +14,15 @@
 ========
 - [PACT Test Demo](#pact-contract-test-demo)
   * [1. Clone项目到你的本地](#1-clone)
-    + [1.1 Test Provider](#11-test-provider)
-    + [1.2 Demo Consumer Burger](#12-demo-consumer-burger)
+    + [1.1 Test Provider项目](#11-test-provider)
+    + [1.2 Consumer Burger项目](#12-demo-consumer-burger)
 
 
 
 ## 1. Clone项目到你的本地
 把项目Clone到你的本地，会由下面的内容组成:
 
-### 1.1. Test Provider工程
+### 1.1. Test Provider项目
 这是一个后端接口服务，在示例中提供了一个接口服务 http://localhost:8080/cart（接口提供了购物车商品信息返回），消费者
 能通过使用GET方式请求接口，传递参数 **prdname**,来获取购物车中指定商品的信息。
 本地启动服务使用下面的命令:
@@ -37,8 +37,8 @@
 
 ![](https://github.com/Joiechen/pact-demo/blob/master/screenshot/provider.chicken.jpg)
 
-### 1.2. Demo Consumer Burger工程
-This is the first example consumer we called Burger, to start it:
+### 1.2. Consumer Burger项目
+这是第一个消费者服务，叫Burger, 本地启动这个项目使用以下命令:
 
 `./gradlew :demo-consumer-burger:bootRun`
 

@@ -11,7 +11,7 @@ public class CartController {
     @Autowired
     private ProviderService providerService;
 
-    @RequestMapping("/Chicken")
+    @RequestMapping("/chicken")
     public String chicken(Model model) {
         Cart cart = providerService.getCart();
         model.addAttribute("prdname", cart.getPrdName());

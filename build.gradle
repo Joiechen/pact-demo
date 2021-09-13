@@ -104,14 +104,14 @@ project(':test-provider') {
                 // This is for local Pact Broker in Docker
  //               hasPactsFromPactBroker("http://localhost:8888/")
 
-                // Test Pacts from local Nanoha
-//                hasPactWith('Nanoha - With Nantionality') {
-//                    pactSource = file("$rootDir/Pacts/Nanoha/ConsumerNanohaWithNationality-ExampleProvider.json")
+                // Test Pacts from local Chicken
+//                hasPactWith('Chicken - With Description') {
+//                    pactSource = file("$rootDir/Pacts/Chicken/ConsumerChickenWithDescription-TestProvider.json")
 //                }
 
- //               hasPactWith('Nanoha - No Nantionality') {
+ //               hasPactWith('Chicken - No Description') {
  //                   stateChangeUrl = new URL('http://localhost:8080/pactStateChange')
- //                   pactSource = file("$rootDir/Pacts/Nanoha/ConsumerNanohaNoNationality-ExampleProvider.json")
+ //                   pactSource = file("$rootDir/Pacts/Chicken/ConsumerChickenNoDescription-TestProvider.json")
  //               }
 
             }
