@@ -15,7 +15,8 @@
 - [PACT Test Demo](#pact-contract-test-demo)
   * [1. Clone项目到你的本地](#1-clone)
     + [1.1 Test Provider项目](#11-test-provider)
-    + [1.2 Consumer Burger项目](#12-demo-consumer-burger)
+    + [1.2 Consumer Burger项目](#12-consumer-burger)
+    + [1.3 Consumer Chicken项目](#13-consumer-chicken)
 
 
 
@@ -42,21 +43,21 @@
 
 `./gradlew :demo-consumer-burger:bootRun`
 
-then visit http://localhost:8081/burger in your browser, you can get this:
+在浏览器中访问 http://localhost:8081/burger , 就会出现下面的页面:
 
-![](https://github.com/Mikuu/Pact-JVM-Example/blob/master/screenshot/consumer.miku.png)
+![](https://github.com/Joiechen/pact-demo/blob/master/screenshot/consumer.burger.jpg)
 
-compare with Provider's payload and the information on the web page, you can find that the attributes `salary` and
-`nationality` are not used by Miku.
+跟 Provider的返回信息cart里面包括的所有元素进行比较, 你会发现Burger没有使用 `qty` 和
+`description`这两个信息.
 
-### 1.3. Demo Consumer Chicken
-This is the second example consumer we called Chicken, to start it:
+### 1.3. Consumer Chicken项目
+这是第一个消费者服务，叫Chicken, 本地启动这个项目使用以下命令:
 
 `./gradlew :demo-consumer-chicken:bootRun`
 
-then visit http://localhost:8082/chicken in your browser, you can get this:
+在浏览器中访问 http://localhost:8082/chicken , 就会出现下面的页面:
 
-![image](https://github.com/Mikuu/Pact-JVM-Example/blob/master/screenshot/consumer.nanoha.png)
+![image](https://github.com/Joiechen/pact-demo/blob/master/screenshot/consumer.chicken.jpg)
 
 similar to Miku, Nanoha does not use the attribute `salary` neither but uses attribute `nationality`, so this
 is a little difference between the two consumers when consuming the response from the Provider's same endpoint.
