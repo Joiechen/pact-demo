@@ -31,11 +31,11 @@ to start the provider:
 
 then call http://localhost:8080/cart?prdname=Burger will get:
 
-![](https://github.com/Mikuu/Pact-JVM-Example/blob/master/screenshot/provider.miku.png)
+![](https://github.com/Joiechen/pact-demo/blob/master/screenshot/provider.burger.jpg)
 
 and call http://localhost:8080/cart?prdname=Chicken will get:
 
-![](https://github.com/Mikuu/Pact-JVM-Example/blob/master/screenshot/provider.nanoha.png)
+![](https://github.com/Joiechen/pact-demo/blob/master/screenshot/provider.chicken.jpg)
 
 ### 1.2. Demo Consumer Burger
 This is the first example consumer we called Burger, to start it:
