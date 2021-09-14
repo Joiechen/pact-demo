@@ -770,11 +770,11 @@ project(':test-provider') {
 ## 4. 在Provider 和 Consumer Chicken之间进行契约测试
 
 在Consumer Chicken和Provider之间进行契约测试跟之前的Burger很相似, 不同之处是使用了
-**Provider State**, 关于更多有关 Provider State的信息可以参考 [官方文档](https://docs.pact.io/documentation/provider_states.html).
+**Provider State**, 关于更多有关 Provider State的信息可以参考 [官方文档](https://docs.pact.io/getting_started/provider_states/).
 
 ### 4.1. 准备 Provider State
 
-在Test Provider 项目中, 之前提供给Burger和Chicken使用的API服务返回了一个属性值 `.description`, 像这种类型的只,
+在Test Provider 项目中, 之前提供给Burger和Chicken使用的API服务返回了一个属性值 `.description`, 像这种类型的值,
 在真实的项目中，一般会从数据库或者第三方依赖服务获取, 而在这个示例中，为了简单明了，这里使用了一个静态的属性来返回这个值:
 
 `provider.ulti.Description`
